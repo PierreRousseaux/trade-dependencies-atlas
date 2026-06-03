@@ -342,25 +342,69 @@ function renderCharts(){
   }
 }
 
+function kernelDensityEstimator(kernel, X) {
+  return function(V) {
+    return X.map(x => [x, d3.mean(V, v => kernel(x - v))]);
+  };
+}
+function kernelEpanechnikov(k) {
+  return function(v) {
+    return Math.abs(v /= k) <= 1 ? 0.75 * (1 - v * v) / k : 0;
+  };
+}
+
 function buildUpstreamChart(prods){
   const card=document.createElement('div');card.className='chart-card';
-  card.innerHTML=`<div class="chart-title">Upstreamness distribution (nb products)</div><svg id="uc" width="100%" height="140"></svg>`;
+  // 3 series: EC, absorption, stickiness (si import), sinon juste tous
+  const isImport = dir === 'import';
+  card.innerHTML=`<div class="chart-title">Upstreamness density — by product list</div><svg id="uc" width="100%" height="160"></svg>
+    <div style="display:flex;gap:.75rem;margin-top:.4rem;flex-wrap:wrap;" id="uc-legend"></div>`;
   setTimeout(()=>{
-    const vals=prods.map(p=>p.upstreamness).filter(v=>v!=null&&!isNaN(v));
-    if(!vals.length){card.querySelector('#uc').remove();card.innerHTML+='<div style="font-size:.75rem;color:var(--text3)">No upstreamness data</div>';return;}
-    const svg=d3.select(card).select('#uc');
-    const W=card.offsetWidth-22,H=140,m={t:10,r:10,b:25,l:30};
-    svg.attr('viewBox',`0 0 ${W} ${H}`);
-    const bins=d3.bin().domain([1,6]).thresholds(20)(vals);
-    const x=d3.scaleLinear().domain([1,6]).range([m.l,W-m.r]);
-    const y=d3.scaleLinear().domain([0,d3.max(bins,b=>b.length)]).range([H-m.b,m.t]);
-    svg.selectAll('rect').data(bins).join('rect')
-      .attr('x',b=>x(b.x0)+1).attr('width',b=>Math.max(0,x(b.x1)-x(b.x0)-2))
-      .attr('y',b=>y(b.length)).attr('height',b=>H-m.b-y(b.length))
-      .attr('fill','var(--accent)').attr('opacity',.6);
-    svg.append('g').attr('transform',`translate(0,${H-m.b})`).call(d3.axisBottom(x).ticks(5)).selectAll('text').style('font-family','var(--mono)').style('font-size','9px');
-    svg.append('g').attr('transform',`translate(${m.l},0)`).call(d3.axisLeft(y).ticks(4)).selectAll('text').style('font-family','var(--mono)').style('font-size','9px');
-    svg.append('text').attr('x',W/2).attr('y',H-3).attr('text-anchor','middle').style('font-family','var(--mono)').style('font-size','9px').attr('fill','var(--text3)').text('Upstreamness score (1 = final good, >3 = upstream input)');
+    const W=card.offsetWidth-22,H=160,m={t:10,r:15,b:28,l:32};
+    const svgEl=d3.select(card).select('#uc');
+    svgEl.attr('viewBox',`0 0 ${W} ${H}`);
+
+    let series;
+    if(isImport){
+      const ec_vals   = impProds.map(p=>p.upstreamness).filter(v=>v!=null&&!isNaN(v));
+      const abs_vals  = impProds.filter(p=>p.absorption===1).map(p=>p.upstreamness).filter(v=>v!=null&&!isNaN(v));
+      const stick_vals= impProds.filter(p=>p.mr===1).map(p=>p.upstreamness).filter(v=>v!=null&&!isNaN(v));
+      series=[
+        {label:'EC',vals:ec_vals,color:'#a8a8a0',dash:'none'},
+        {label:'EC + Absorption',vals:abs_vals,color:'#1a56db',dash:'none'},
+        {label:'EC + Abs + Stickiness',vals:stick_vals,color:'#d63b2f',dash:'4,3'},
+      ].filter(s=>s.vals.length>2);
+    } else {
+      const vals=prods.map(p=>p.upstreamness).filter(v=>v!=null&&!isNaN(v));
+      series=[{label:'Reverse dep.',vals,color:'#1a8a4a',dash:'none'}];
+    }
+    if(!series.length){svgEl.remove();return;}
+
+    const allVals=series.flatMap(s=>s.vals);
+    const xDom=[Math.max(0.8,d3.min(allVals)-0.2),Math.min(7,d3.max(allVals)+0.2)];
+    const x=d3.scaleLinear().domain(xDom).range([m.l,W-m.r]);
+    const kde=kernelDensityEstimator(kernelEpanechnikov(0.4),d3.range(xDom[0],xDom[1],.05));
+    const densities=series.map(s=>({...s,density:kde(s.vals)}));
+    const yMax=d3.max(densities.flatMap(s=>s.density.map(d=>d[1])));
+    const y=d3.scaleLinear().domain([0,yMax*1.1]).range([H-m.b,m.t]);
+    const line=d3.line().x(d=>x(d[0])).y(d=>y(d[1])).curve(d3.curveBasis);
+
+    svgEl.append('g').attr('transform',`translate(0,${H-m.b})`).call(d3.axisBottom(x).ticks(6)).selectAll('text').style('font-family','var(--mono)').style('font-size','8px');
+    svgEl.append('g').attr('transform',`translate(${m.l},0)`).call(d3.axisLeft(y).ticks(3).tickFormat(d3.format('.2f'))).selectAll('text').style('font-family','var(--mono)').style('font-size','8px');
+    svgEl.append('text').attr('x',W/2).attr('y',H-2).attr('text-anchor','middle').style('font-family','var(--mono)').style('font-size','8px').attr('fill','var(--text3)').text('Upstreamness (1 = final good · >3 = upstream input)');
+
+    densities.forEach(s=>{
+      svgEl.append('path').datum(s.density)
+        .attr('fill','none').attr('stroke',s.color).attr('stroke-width',1.5)
+        .attr('stroke-dasharray',s.dash)
+        .attr('d',line);
+    });
+
+    const leg=card.querySelector('#uc-legend');
+    densities.forEach(s=>{
+      leg.innerHTML+=`<span style="display:flex;align-items:center;gap:4px;font-family:var(--mono);font-size:.6rem;color:var(--text3)">
+        <span style="width:14px;height:2px;background:${s.color};display:inline-block"></span>${s.label} (n=${s.vals.length})</span>`;
+    });
   },50);
   return card;
 }
