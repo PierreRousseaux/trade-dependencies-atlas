@@ -1,38 +1,37 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Trade Dependencies — Pays</title>
+<title>Trade Dependency Atlas — Country</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
+:root{--bg:#fff;--bg2:#f7f7f5;--bg3:#efefed;--border:#e4e4e0;--border2:#d0d0ca;--text:#1a1a18;--text2:#6b6b65;--text3:#a8a8a0;--accent:#1a56db;--red:#d63b2f;--blue:#1a56db;--green:#1a8a4a;--mono:'DM Mono',monospace;--sans:'DM Sans',sans-serif;}
+*{box-sizing:border-box;margin:0;padding:0;}html{font-size:14px;}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);}
 
-:root {
-  --bg:#ffffff; --bg2:#f7f7f5; --bg3:#efefed;
-  --border:#e4e4e0; --border2:#d0d0ca;
-  --text:#1a1a18; --text2:#6b6b65; --text3:#a8a8a0;
-  --accent:#1a56db; --red:#d63b2f; --red-l:#fcecea;
-  --blue:#1a56db; --blue-l:#eaf0fd;
-  --green:#1a8a4a; --green-l:#eaf5ee;
-  --mono:'DM Mono',monospace; --sans:'DM Sans',sans-serif;
-}
-*{box-sizing:border-box;margin:0;padding:0;}
-html{font-size:14px;}
-body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:100vh;}
+nav{display:flex;align-items:center;padding:0 2rem;border-bottom:1px solid var(--border);background:var(--bg);position:sticky;top:0;z-index:100;}
+.nav-logo{font-family:var(--mono);font-size:.8rem;font-weight:500;color:var(--text);padding:1rem 1.5rem 1rem 0;border-right:1px solid var(--border);margin-right:1rem;letter-spacing:-.01em;}
+.nav-logo span{color:var(--accent);}
+.nav-links{display:flex;}
+.nav-link{font-size:.78rem;color:var(--text2);text-decoration:none;padding:.85rem .9rem;border-bottom:2px solid transparent;transition:color .12s,border-color .12s;}
+.nav-link:hover{color:var(--text);}
+.nav-link.active{color:var(--accent);border-bottom-color:var(--accent);}
+.nav-spacer{flex:1;}
 
-/* Header */
-.header{display:flex;align-items:center;gap:1rem;padding:.65rem 1.5rem;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--bg);z-index:50;}
-.back{font-family:var(--mono);font-size:.7rem;color:var(--text3);text-decoration:none;padding:.3rem .6rem;border:1px solid var(--border2);border-radius:3px;letter-spacing:.03em;}
+/* Country header */
+.chead{display:flex;align-items:center;gap:1rem;padding:.65rem 2rem;border-bottom:1px solid var(--border);}
+.back{font-family:var(--mono);font-size:.68rem;color:var(--text3);text-decoration:none;padding:.28rem .6rem;border:1px solid var(--border2);border-radius:3px;}
 .back:hover{color:var(--accent);border-color:var(--accent);}
-.h-name{font-weight:500;font-size:1.05rem;}
-.h-iso{font-family:var(--mono);font-size:.72rem;color:var(--text3);margin-left:.4rem;}
-.h-gdp{font-family:var(--mono);font-size:.7rem;color:var(--text2);margin-left:auto;border:1px solid var(--border);padding:.25rem .6rem;border-radius:3px;}
+.chead-name{font-weight:600;font-size:1.1rem;letter-spacing:-.02em;}
+.chead-iso{font-family:var(--mono);font-size:.7rem;color:var(--text3);margin-left:.4rem;}
+.chead-gdp{font-family:var(--mono);font-size:.68rem;color:var(--text2);margin-left:auto;border:1px solid var(--border);padding:.25rem .6rem;border-radius:3px;}
 
 /* Controls */
-.controls{display:flex;align-items:center;gap:.5rem;padding:.45rem 1.5rem;border-bottom:1px solid var(--border);background:var(--bg2);flex-wrap:wrap;}
-.ctrl-label{font-family:var(--mono);font-size:.65rem;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;}
+.controls{display:flex;align-items:center;gap:.5rem;padding:.45rem 2rem;border-bottom:1px solid var(--border);background:var(--bg2);flex-wrap:wrap;}
+.ctrl-label{font-family:var(--mono);font-size:.63rem;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;}
 .ctrl-group{display:flex;gap:1px;}
-.ctrl-btn{font-family:var(--mono);font-size:.7rem;padding:.28rem .65rem;border:1px solid var(--border2);background:var(--bg);color:var(--text2);cursor:pointer;transition:all .12s;}
+.ctrl-btn{font-family:var(--mono);font-size:.68rem;padding:.27rem .62rem;border:1px solid var(--border2);background:var(--bg);color:var(--text2);cursor:pointer;transition:all .12s;}
 .ctrl-btn:first-child{border-radius:3px 0 0 3px;}
 .ctrl-btn:last-child{border-radius:0 3px 3px 0;}
 .ctrl-btn.active{background:var(--text);color:var(--bg);border-color:var(--text);}
@@ -40,84 +39,94 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:1
 
 /* KPI */
 .kpi-bar{display:flex;border-bottom:1px solid var(--border);overflow-x:auto;}
-.kpi{padding:.55rem 1.25rem;border-right:1px solid var(--border);flex-shrink:0;}
-.kpi-l{font-family:var(--mono);font-size:.62rem;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px;}
-.kpi-v{font-family:var(--mono);font-size:.95rem;font-weight:500;color:var(--text);}
+.kpi{padding:.5rem 1.1rem;border-right:1px solid var(--border);flex-shrink:0;}
+.kpi-l{font-family:var(--mono);font-size:.6rem;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px;}
+.kpi-v{font-family:var(--mono);font-size:.9rem;font-weight:500;color:var(--text);}
 .kpi-v.blue{color:var(--blue);}
 .kpi-v.red{color:var(--red);}
 .kpi-v.green{color:var(--green);}
 
-/* Main layout: map left, charts right */
-.main{display:grid;grid-template-columns:1fr 340px;border-bottom:1px solid var(--border);}
-@media(max-width:900px){.main{grid-template-columns:1fr;}}
-
-/* Map */
+/* Main grid */
+.main{display:grid;grid-template-columns:1fr 320px;border-bottom:1px solid var(--border);}
+@media(max-width:880px){.main{grid-template-columns:1fr;}}
 #map-wrap{position:relative;background:#f0f2f0;border-right:1px solid var(--border);}
 #tooltip{display:none;position:absolute;background:var(--bg);border:1px solid var(--border2);border-radius:4px;padding:.65rem .9rem;font-size:.75rem;max-width:220px;pointer-events:none;z-index:100;box-shadow:0 4px 14px rgba(0,0,0,.07);}
-.tt-name{font-weight:500;margin-bottom:.35rem;}
-.tt-row{display:flex;justify-content:space-between;gap:.75rem;color:var(--text2);margin-bottom:2px;}
-.tt-v{font-family:var(--mono);font-size:.7rem;color:var(--text);}
+.tt-name{font-weight:500;margin-bottom:.3rem;}
+.tt-row{display:flex;justify-content:space-between;gap:.6rem;color:var(--text2);margin-bottom:2px;}
+.tt-v{font-family:var(--mono);font-size:.68rem;color:var(--text);}
 
 /* Side panel */
-.side{overflow-y:auto;max-height:calc(100vh - 160px);}
-.side-section{border-bottom:1px solid var(--border);padding:.9rem 1.1rem;}
-.side-title{font-family:var(--mono);font-size:.65rem;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin-bottom:.7rem;}
-
-/* Funnel / bar charts */
+.side{overflow-y:auto;max-height:calc(100vh - 180px);}
+.side-sec{border-bottom:1px solid var(--border);padding:.9rem 1rem;}
+.side-title{font-family:var(--mono);font-size:.62rem;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin-bottom:.65rem;}
 .bar-row{display:flex;align-items:center;gap:.5rem;margin-bottom:5px;}
-.bar-label{font-size:.72rem;color:var(--text2);width:120px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.bar-track{flex:1;background:var(--bg3);border-radius:2px;height:16px;overflow:hidden;}
+.bar-label{font-size:.7rem;color:var(--text2);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.bar-track{width:80px;background:var(--bg3);border-radius:2px;height:14px;flex-shrink:0;overflow:hidden;}
 .bar-fill{height:100%;border-radius:2px;transition:width .5s cubic-bezier(.16,1,.3,1);}
-.bar-num{font-family:var(--mono);font-size:.68rem;color:var(--text3);width:40px;text-align:right;flex-shrink:0;}
+.bar-num{font-family:var(--mono);font-size:.65rem;color:var(--text3);width:32px;text-align:right;flex-shrink:0;}
 
-/* Funnel highlight */
-.funnel-ec   .bar-fill{background:#1a1a18;}
-.funnel-abs  .bar-fill{background:#6b6b65;}
-.funnel-stick .bar-fill{background:#a8a8a0;}
+/* Upstreamness distribution chart */
+#upstream-chart{margin-top:.5rem;}
 
-/* Sector */
-.sector-fill{background:var(--accent);opacity:.6;}
+/* Charts bottom */
+.charts{padding:1.5rem 2rem;display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;border-bottom:1px solid var(--border);}
+@media(max-width:700px){.charts{grid-template-columns:1fr;}}
+.chart-card{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:1rem 1.1rem;}
+.chart-title{font-family:var(--mono);font-size:.62rem;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin-bottom:.75rem;}
 
-/* Partners */
-.partner-import .bar-fill{background:var(--red);}
-.partner-export .bar-fill{background:var(--green);}
-
-/* Bottom section: products */
-.products-section{padding:1rem 1.5rem 2rem;}
-.prod-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.6rem;}
-.prod-title{font-family:var(--mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);}
-.prod-count{font-family:var(--mono);font-size:.65rem;color:var(--text3);}
+/* Products */
+.prod-section{padding:1rem 2rem 2rem;}
+.prod-header{display:flex;align-items:center;gap:1rem;margin-bottom:.6rem;flex-wrap:wrap;}
+.prod-title{font-family:var(--mono);font-size:.65rem;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);}
+.prod-count{font-family:var(--mono);font-size:.62rem;color:var(--text3);margin-left:auto;}
+.filter-bar{display:flex;gap:.4rem;align-items:center;flex-wrap:wrap;}
+.filter-input{font-family:var(--mono);font-size:.68rem;padding:.25rem .5rem;border:1px solid var(--border2);border-radius:3px;outline:none;width:160px;}
+.filter-input:focus{border-color:var(--accent);}
 table{width:100%;border-collapse:collapse;font-size:.75rem;}
-th{text-align:left;padding:.3rem .6rem;font-family:var(--mono);font-size:.6rem;letter-spacing:.05em;text-transform:uppercase;color:var(--text3);border-bottom:1px solid var(--border);font-weight:400;}
-td{padding:.35rem .6rem;border-bottom:1px solid var(--bg3);color:var(--text2);}
-td:first-child{font-family:var(--mono);font-size:.68rem;color:var(--accent);}
-td.desc{color:var(--text);max-width:280px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-td.num{font-family:var(--mono);text-align:right;color:var(--text);}
+th{text-align:left;padding:.3rem .6rem;font-family:var(--mono);font-size:.58rem;letter-spacing:.05em;text-transform:uppercase;color:var(--text3);border-bottom:1px solid var(--border);font-weight:400;cursor:pointer;white-space:nowrap;user-select:none;}
+th:hover{color:var(--accent);}
+th.sort-asc::after{content:' ↑';}
+th.sort-desc::after{content:' ↓';}
+td{padding:.32rem .6rem;border-bottom:1px solid var(--bg3);color:var(--text2);}
+td:first-child{font-family:var(--mono);font-size:.65rem;color:var(--accent);}
+td.desc{color:var(--text);max-width:260px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+td.num{font-family:var(--mono);text-align:right;color:var(--text);font-size:.72rem;}
 .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--bg3);}
 .dot.on{background:var(--accent);}
+tr:hover td{background:var(--bg2);}
 
-footer{padding:.6rem 1.5rem;border-top:1px solid var(--border);font-family:var(--mono);font-size:.62rem;color:var(--text3);display:flex;justify-content:space-between;}
+footer{padding:.6rem 2rem;border-top:1px solid var(--border);font-family:var(--mono);font-size:.6rem;color:var(--text3);display:flex;justify-content:space-between;}
 footer a{color:var(--text3);text-decoration:underline;}
 </style>
 </head>
 <body>
 
-<header class="header">
+<nav>
+  <div class="nav-logo">Trade Dependency<span>.</span>Atlas</div>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link">Atlas</a>
+    <a href="methodology.html" class="nav-link">Methodology</a>
+    <a href="about.html" class="nav-link">About</a>
+  </div>
+  <div class="nav-spacer"></div>
+</nav>
+
+<div class="chead">
   <a href="index.html" class="back">← Atlas</a>
-  <span class="h-name" id="h-name">—</span><span class="h-iso" id="h-iso">—</span>
-  <span class="h-gdp">PIB moy. 2015–19 : <span id="h-gdp">—</span> Md€</span>
-</header>
+  <span class="chead-name" id="h-name">—</span><span class="chead-iso" id="h-iso">—</span>
+  <span class="chead-gdp">Avg. GDP 2015–19: <span id="h-gdp">—</span> Bn€</span>
+</div>
 
 <div class="controls">
   <span class="ctrl-label">Direction</span>
-  <div class="ctrl-group" id="dir-group">
-    <button class="ctrl-btn active" onclick="setDir('import')">↓ Import</button>
-    <button class="ctrl-btn" onclick="setDir('export')">↑ Export power</button>
+  <div class="ctrl-group" id="dir-grp">
+    <button class="ctrl-btn active" onclick="setDir('import')">↓ Import dep.</button>
+    <button class="ctrl-btn" onclick="setDir('export')">↑ Export leverage</button>
   </div>
   <div class="ctrl-sep"></div>
-  <span class="ctrl-label">Liste</span>
-  <div class="ctrl-group" id="list-group">
-    <button class="ctrl-btn active" onclick="setList('ec')">EC</button>
+  <span class="ctrl-label">List</span>
+  <div class="ctrl-group" id="list-grp">
+    <button class="ctrl-btn active" onclick="setList('ec')">EC criteria</button>
     <button class="ctrl-btn" onclick="setList('abs')">+ Absorption</button>
     <button class="ctrl-btn" onclick="setList('stick')">+ Stickiness</button>
   </div>
@@ -127,36 +136,49 @@ footer a{color:var(--text3);text-decoration:underline;}
 
 <div class="main">
   <div id="map-wrap">
-    <div id="tooltip"><div class="tt-name" id="tt-name"></div><div id="tt-body"></div></div>
+    <div id="tooltip"><div class="tt-name" id="tt-n"></div><div id="tt-b"></div></div>
   </div>
   <div class="side" id="side"></div>
 </div>
 
-<div class="products-section" id="prod-section"></div>
+<div class="charts" id="charts"></div>
+
+<div class="prod-section">
+  <div class="prod-header">
+    <span class="prod-title" id="prod-title">Products</span>
+    <div class="filter-bar">
+      <input class="filter-input" id="filter-input" placeholder="Search code or description..." oninput="filterTable()">
+      <span class="prod-count" id="prod-count"></span>
+    </div>
+  </div>
+  <div id="prod-table"></div>
+</div>
 
 <footer>
-  <span>© Pierre Rousseaux — <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></span>
-  <span>BACI CEPII HS17 V202601 · Pool 2015–2019 · EUR constants 2019</span>
+  <span>© Pierre Rousseaux — <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · <a href="https://www.pierrerousseaux.com">pierrerousseaux.com</a></span>
+  <span>BACI CEPII HS17 V202601 · Pool 2015–2019 · EUR constant 2019</span>
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
 <script>
-const iso2num={"AF":"4","AL":"8","DZ":"12","AD":"20","AO":"24","AR":"32","AM":"51","AU":"36","AT":"40","AZ":"31","BE":"56","BJ":"204","BO":"68","BA":"70","BR":"76","BG":"100","BF":"854","BI":"108","KH":"116","CM":"120","CA":"124","CF":"140","TD":"148","CL":"152","CN":"156","CO":"170","CD":"180","CG":"178","HR":"191","CU":"192","CY":"196","CZ":"203","DK":"208","EG":"818","EE":"233","ET":"231","FI":"246","FR":"250","GA":"266","GM":"270","GE":"268","DE":"276","GH":"288","GR":"300","GT":"320","GN":"324","HU":"348","IN":"356","ID":"360","IR":"364","IQ":"368","IE":"372","IL":"376","IT":"380","JP":"392","JO":"400","KZ":"398","KE":"404","KW":"414","LV":"428","LB":"422","LY":"434","LT":"440","LU":"442","MG":"450","MW":"454","MY":"458","ML":"466","MT":"470","MR":"478","MX":"484","MD":"498","MN":"496","ME":"499","MA":"504","MZ":"508","NA":"516","NL":"528","NZ":"554","NE":"562","NG":"566","NO":"578","OM":"512","PK":"586","PL":"616","PT":"620","QA":"634","RO":"642","RU":"643","SA":"682","SN":"686","RS":"688","SG":"702","SK":"703","SI":"705","ZA":"710","ES":"724","LK":"144","SE":"752","CH":"756","TJ":"762","TZ":"834","TH":"764","TN":"788","TR":"792","UA":"804","AE":"784","GB":"826","US":"840","UY":"858","VN":"704","ZM":"894","ZW":"716","MK":"807","KR":"410","CI":"384","PS":"275","NE":"562"};
+const COUNTRY_NAMES={"AF":"Afghanistan","AL":"Albania","DZ":"Algeria","AD":"Andorra","AO":"Angola","AR":"Argentina","AM":"Armenia","AU":"Australia","AT":"Austria","AZ":"Azerbaijan","BE":"Belgium","BJ":"Benin","BO":"Bolivia","BA":"Bosnia","BR":"Brazil","BG":"Bulgaria","BF":"Burkina Faso","BI":"Burundi","KH":"Cambodia","CM":"Cameroon","CA":"Canada","CF":"Central African Republic","TD":"Chad","CL":"Chile","CN":"China","CO":"Colombia","CD":"DR Congo","CG":"Congo","HR":"Croatia","CU":"Cuba","CY":"Cyprus","CZ":"Czech Republic","DK":"Denmark","EG":"Egypt","EE":"Estonia","ET":"Ethiopia","FI":"Finland","FR":"France","GA":"Gabon","GM":"Gambia","GE":"Georgia","DE":"Germany","GH":"Ghana","GR":"Greece","GT":"Guatemala","GN":"Guinea","HU":"Hungary","IN":"India","ID":"Indonesia","IR":"Iran","IQ":"Iraq","IE":"Ireland","IL":"Israel","IT":"Italy","JP":"Japan","JO":"Jordan","KZ":"Kazakhstan","KE":"Kenya","KW":"Kuwait","LV":"Latvia","LB":"Lebanon","LY":"Libya","LT":"Lithuania","LU":"Luxembourg","MG":"Madagascar","MW":"Malawi","MY":"Malaysia","ML":"Mali","MT":"Malta","MR":"Mauritania","MX":"Mexico","MD":"Moldova","MN":"Mongolia","ME":"Montenegro","MA":"Morocco","MZ":"Mozambique","NA":"Namibia","NL":"Netherlands","NZ":"New Zealand","NE":"Niger","NG":"Nigeria","NO":"Norway","OM":"Oman","PK":"Pakistan","PL":"Poland","PT":"Portugal","QA":"Qatar","RO":"Romania","RU":"Russia","SA":"Saudi Arabia","SN":"Senegal","RS":"Serbia","SG":"Singapore","SK":"Slovakia","SI":"Slovenia","ZA":"South Africa","ES":"Spain","LK":"Sri Lanka","SE":"Sweden","CH":"Switzerland","TJ":"Tajikistan","TZ":"Tanzania","TH":"Thailand","TN":"Tunisia","TR":"Turkey","UA":"Ukraine","AE":"United Arab Emirates","GB":"United Kingdom","US":"United States","UY":"Uruguay","VN":"Vietnam","ZM":"Zambia","ZW":"Zimbabwe","MK":"North Macedonia","KR":"South Korea","CI":"Côte d'Ivoire","PS":"Palestine","EU":"European Union","NC":"New Caledonia","PF":"French Polynesia","PM":"Saint Pierre and Miquelon","BL":"Saint Barthélemy","RE":"Réunion","GP":"Guadeloupe","GF":"French Guiana","MQ":"Martinique","SS":"South Sudan","YE":"Yemen","SO":"Somalia","SY":"Syria","LY":"Libya","ER":"Eritrea","TM":"Turkmenistan","KG":"Kyrgyzstan","UZ":"Uzbekistan","TT":"Trinidad and Tobago","JM":"Jamaica","HT":"Haiti","DO":"Dominican Republic","PA":"Panama","CR":"Costa Rica","NI":"Nicaragua","HN":"Honduras","SV":"El Salvador","GT":"Guatemala","BO":"Bolivia","PY":"Paraguay","EC":"Ecuador","PE":"Peru","VE":"Venezuela","GY":"Guyana","SR":"Suriname","MU":"Mauritius","SC":"Seychelles","CV":"Cape Verde","KM":"Comoros","MV":"Maldives","BN":"Brunei","PH":"Philippines","MM":"Myanmar","LA":"Laos","KH":"Cambodia","NP":"Nepal","BD":"Bangladesh","LK":"Sri Lanka","AF":"Afghanistan","MN":"Mongolia","KZ":"Kazakhstan","UZ":"Uzbekistan","TJ":"Tajikistan","TM":"Turkmenistan","AZ":"Azerbaijan","GE":"Georgia","AM":"Armenia","BY":"Belarus","MD":"Moldova","UA":"Ukraine"};
+const iso2num={"AF":"4","AL":"8","DZ":"12","AD":"20","AO":"24","AR":"32","AM":"51","AU":"36","AT":"40","AZ":"31","BE":"56","BJ":"204","BO":"68","BA":"70","BR":"76","BG":"100","BF":"854","BI":"108","KH":"116","CM":"120","CA":"124","CF":"140","TD":"148","CL":"152","CN":"156","CO":"170","CD":"180","CG":"178","HR":"191","CU":"192","CY":"196","CZ":"203","DK":"208","EG":"818","EE":"233","ET":"231","FI":"246","FR":"250","GA":"266","GM":"270","GE":"268","DE":"276","GH":"288","GR":"300","GT":"320","GN":"324","HU":"348","IN":"356","ID":"360","IR":"364","IQ":"368","IE":"372","IL":"376","IT":"380","JP":"392","JO":"400","KZ":"398","KE":"404","KW":"414","LV":"428","LB":"422","LY":"434","LT":"440","LU":"442","MG":"450","MW":"454","MY":"458","ML":"466","MT":"470","MR":"478","MX":"484","MD":"498","MN":"496","ME":"499","MA":"504","MZ":"508","NA":"516","NL":"528","NZ":"554","NE":"562","NG":"566","NO":"578","OM":"512","PK":"586","PL":"616","PT":"620","QA":"634","RO":"642","RU":"643","SA":"682","SN":"686","RS":"688","SG":"702","SK":"703","SI":"705","ZA":"710","ES":"724","LK":"144","SE":"752","CH":"756","TJ":"762","TZ":"834","TH":"764","TN":"788","TR":"792","UA":"804","AE":"784","GB":"826","US":"840","UY":"858","VN":"704","ZM":"894","ZW":"716","MK":"807","KR":"410","CI":"384","PS":"275","SS":"728","YE":"887","SO":"706","SY":"760","ER":"232","TM":"795","KG":"417","UZ":"860","TT":"780","JM":"388","HT":"332","DO":"214","PA":"591","CR":"188","NI":"558","HN":"340","SV":"222","BO":"68","PY":"600","EC":"218","PE":"604","VE":"862","GY":"328","MU":"480","SC":"690","CV":"132","BN":"96","PH":"608","MM":"104","LA":"418","NP":"524","BD":"50","BY":"112"};
 const num2iso=Object.fromEntries(Object.entries(iso2num).map(([a,b])=>[b,a]));
+const cn=iso=>(COUNTRY_NAMES[iso]||iso);
 
-const params = new URLSearchParams(window.location.search);
-const ISO   = params.get('iso') || 'FR';
-const PERIOD = 'pre';
-let dir   = params.get('dir')  || 'import';
-let list  = params.get('list') || 'ec';
+const params=new URLSearchParams(window.location.search);
+const ISO=params.get('iso')||'FR';
+const PERIOD='pre';
+let dir=params.get('dir')||'import';
+let list=params.get('list')||'ec';
+let impData=null,expData=null,impProds=[],expProds=[];
+let summary={},feats=null,svgEl=null;
+let sortCol=null,sortDir=1;
+let filteredRows=[];
 
-let impData=null, expData=null, impProds=[], expProds=[];
-let summary={}, feats=null, svgEl=null;
-
-// Sync buttons
-document.querySelectorAll('#dir-group .ctrl-btn').forEach((b,i)=>b.classList.toggle('active',i===(dir==='import'?0:1)));
-document.querySelectorAll('#list-group .ctrl-btn').forEach((b,i)=>b.classList.toggle('active',['ec','abs','stick'][i]===list));
+document.querySelectorAll('#dir-grp .ctrl-btn').forEach((b,i)=>b.classList.toggle('active',i===(dir==='import'?0:1)));
+document.querySelectorAll('#list-grp .ctrl-btn').forEach((b,i)=>b.classList.toggle('active',['ec','abs','stick'][i]===list));
 
 Promise.all([
   fetch(`data/import/${ISO}_${PERIOD}.json`).then(r=>r.json()).catch(()=>null),
@@ -166,245 +188,284 @@ Promise.all([
   fetch('data/indicators/summary.json').then(r=>r.json()).catch(()=>[]),
   d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json')
 ]).then(([imp,exp,ip,ep,sum,topo])=>{
-  impData=imp; expData=exp; impProds=ip||[]; expProds=ep||[];
-  sum.forEach(d=>{ summary[d.country]=d; });
-  const info = summary[ISO]||{};
-  document.getElementById('h-name').textContent = info.name||ISO;
-  document.getElementById('h-iso').textContent  = ISO;
-  document.getElementById('h-gdp').textContent  = info.gdp_eur_bn!=null?Math.round(info.gdp_eur_bn).toLocaleString('fr'):'—';
-  feats = topojson.feature(topo, topo.objects.countries).features;
+  impData=imp;expData=exp;impProds=ip||[];expProds=ep||[];
+  sum.forEach(d=>{summary[d.country]=d;});
+  const info=summary[ISO]||{};
+  document.getElementById('h-name').textContent=cn(ISO);
+  document.getElementById('h-iso').textContent=ISO;
+  document.getElementById('h-gdp').textContent=info.gdp_eur_bn!=null?Math.round(info.gdp_eur_bn).toLocaleString('en'):'—';
+  feats=topojson.feature(topo,topo.objects.countries).features;
   render();
 });
 
-function setDir(d){
-  dir=d;
-  document.querySelectorAll('#dir-group .ctrl-btn').forEach((b,i)=>b.classList.toggle('active',i===(d==='import'?0:1)));
-  render();
-}
-function setList(l){
-  list=l;
-  document.querySelectorAll('#list-group .ctrl-btn').forEach((b,i)=>b.classList.toggle('active',['ec','abs','stick'][i]===l));
-  render();
-}
+function setDir(d){dir=d;document.querySelectorAll('#dir-grp .ctrl-btn').forEach((b,i)=>b.classList.toggle('active',i===(d==='import'?0:1)));render();}
+function setList(l){list=l;document.querySelectorAll('#list-grp .ctrl-btn').forEach((b,i)=>b.classList.toggle('active',['ec','abs','stick'][i]===l));render();}
+function render(){renderKPIs();renderMap();renderSide();renderCharts();renderProducts();}
 
-function render(){
-  renderKPIs();
-  renderMap();
-  renderSide();
-  renderProducts();
-}
-
-/* ── KPIs ── */
+/* KPIs */
 function renderKPIs(){
   const el=document.getElementById('kpi-bar');
   const info=summary[ISO]||{};
+  const fmt=(v,pct)=>v!=null&&!isNaN(v)&&isFinite(v)?(pct?(v*100).toFixed(1)+'%':v.toFixed(2)):'—';
   if(dir==='import'){
-    const n = list==='ec'?info.n_ec:list==='abs'?info.n_abs:info.n_stick;
-    const vi = info.vi_index;
+    const n=list==='ec'?info.n_ec:list==='abs'?info.n_abs:info.n_stick;
+    const vi_n=list==='ec'?info.vi_index:list==='abs'?info.vi_index:info.vi_index; // same VI for now
+    const imp_val=impProds.filter(p=>list==='ec'?true:list==='abs'?p.absorption===1:p.mr===1).reduce((s,p)=>s+(p.extra_import_value||0),0);
     el.innerHTML=`
-      <div class="kpi"><div class="kpi-l">Produits ${list==='ec'?'EC':list==='abs'?'EC+Abs':'EC+Abs+Stick'}</div><div class="kpi-v blue">${n??'—'}</div></div>
-      <div class="kpi"><div class="kpi-l">VI / PIB</div><div class="kpi-v red">${vi!=null?(vi*100).toFixed(1)+'%':'—'}</div></div>
-      <div class="kpi"><div class="kpi-l">Imports critiques (M€)</div><div class="kpi-v">${info.vi_raw!=null?Math.round(info.vi_raw/1000).toLocaleString('fr'):'—'}</div></div>
-      <div class="kpi"><div class="kpi-l">PIB moy. (Md€)</div><div class="kpi-v">${info.gdp_eur_bn!=null?Math.round(info.gdp_eur_bn).toLocaleString('fr'):'—'}</div></div>
-      <div class="kpi"><div class="kpi-l">DBS</div><div class="kpi-v" style="color:${info.dbs==null?'inherit':info.dbs<.85?'var(--blue)':info.dbs>1.15?'var(--red)':'inherit'}">${info.dbs!=null?info.dbs.toFixed(2):'—'}</div></div>`;
+      <div class="kpi"><div class="kpi-l">${list==='ec'?'EC products':list==='abs'?'EC + Absorption':'EC + Abs + Stickiness'}</div><div class="kpi-v blue">${n??'—'}</div></div>
+      <div class="kpi"><div class="kpi-l">VI / GDP</div><div class="kpi-v red">${fmt(info.vi_index,true)}</div></div>
+      <div class="kpi"><div class="kpi-l">Critical imports (M€)</div><div class="kpi-v">${Math.round(imp_val/1000).toLocaleString('en')}</div></div>
+      <div class="kpi"><div class="kpi-l">Avg. GDP (Bn€)</div><div class="kpi-v">${info.gdp_eur_bn!=null?Math.round(info.gdp_eur_bn).toLocaleString('en'):'—'}</div></div>
+      <div class="kpi"><div class="kpi-l">DBS</div><div class="kpi-v" style="color:${info.dbs==null?'inherit':info.dbs<.85?'var(--blue)':info.dbs>1.15?'var(--red)':'inherit'}">${fmt(info.dbs,false)}</div></div>`;
   } else {
-    const n = info.n_prod_exp;
+    const prod_filtered=expProds;
     el.innerHTML=`
-      <div class="kpi"><div class="kpi-l">Produits reverse dep.</div><div class="kpi-v green">${n??'—'}</div></div>
-      <div class="kpi"><div class="kpi-l">Pays exposés</div><div class="kpi-v blue">${info.n_cty_exp??'—'}</div></div>
-      <div class="kpi"><div class="kpi-l">LI / PIB</div><div class="kpi-v green">${info.li_index!=null?(info.li_index*100).toFixed(1)+'%':'—'}</div></div>
-      <div class="kpi"><div class="kpi-l">Exports critiques (M€)</div><div class="kpi-v">${info.li_raw!=null?Math.round(info.li_raw/1000).toLocaleString('fr'):'—'}</div></div>
-      <div class="kpi"><div class="kpi-l">DBS</div><div class="kpi-v" style="color:${info.dbs==null?'inherit':info.dbs<.85?'var(--blue)':info.dbs>1.15?'var(--red)':'inherit'}">${info.dbs!=null?info.dbs.toFixed(2):'—'}</div></div>`;
+      <div class="kpi"><div class="kpi-l">Reverse dep. products</div><div class="kpi-v green">${info.n_prod_exp??'—'}</div></div>
+      <div class="kpi"><div class="kpi-l">Exposed countries</div><div class="kpi-v blue">${info.n_cty_exp??'—'}</div></div>
+      <div class="kpi"><div class="kpi-l">LI / GDP</div><div class="kpi-v green">${fmt(info.li_index,true)}</div></div>
+      <div class="kpi"><div class="kpi-l">Critical exports (M€)</div><div class="kpi-v">${Math.round(prod_filtered.reduce((s,p)=>s+(p.total_exports||0),0)/1000).toLocaleString('en')}</div></div>
+      <div class="kpi"><div class="kpi-l">DBS</div><div class="kpi-v" style="color:${info.dbs==null?'inherit':info.dbs<.85?'var(--blue)':info.dbs>1.15?'var(--red)':'inherit'}">${fmt(info.dbs,false)}</div></div>`;
   }
 }
 
-/* ── Map ── */
+/* Map */
 function renderMap(){
   const wrap=document.getElementById('map-wrap');
   wrap.querySelectorAll('svg').forEach(s=>s.remove());
-  const W=wrap.clientWidth||600, H=Math.round(W*.52);
+  const W=wrap.clientWidth||700,H=Math.round(W*.5);
   wrap.style.height=H+'px';
   const proj=d3.geoNaturalEarth1().scale(W/6.3).translate([W/2,H/2]);
   const path=d3.geoPath(proj);
   svgEl=d3.select('#map-wrap').append('svg').attr('viewBox',`0 0 ${W} ${H}`).attr('width','100%').style('display','block');
   svgEl.append('rect').attr('width',W).attr('height',H).attr('fill','#f0f2f0');
   svgEl.append('path').datum(d3.geoGraticule()()).attr('d',path).attr('fill','none').attr('stroke','rgba(0,0,0,.04)').attr('stroke-width',.3);
-  if(!feats) return;
-
-  // Build lookup by partner
+  if(!feats)return;
   let lookup={};
-  if(dir==='import' && impData?.by_source){
-    impData.by_source.forEach(d=>{lookup[d.top_exporter]=d;});
-  } else if(dir==='export' && expData?.by_importer){
-    expData.by_importer.forEach(d=>{lookup[d.importer]=d;});
-  }
-
+  if(dir==='import'&&impData?.by_source) impData.by_source.forEach(d=>{lookup[d.top_exporter]=d;});
+  else if(dir==='export'&&expData?.by_importer) expData.by_importer.forEach(d=>{lookup[d.importer]=d;});
   const maxN=d3.max(Object.values(lookup),d=>d.n_products||0)||1;
-  const colorScale = dir==='import'
-    ? d3.scaleSequentialLog([1,maxN],d3.interpolateRgb('#f5ebe8','#d63b2f')).clamp(true)
-    : d3.scaleSequentialLog([1,maxN],d3.interpolateRgb('#e8f5ef','#1a8a4a')).clamp(true);
-
+  const cScale=dir==='import'
+    ?d3.scaleSequentialLog([1,maxN],d3.interpolateRgb('#f5ebe8','#d63b2f')).clamp(true)
+    :d3.scaleSequentialLog([1,maxN],d3.interpolateRgb('#e8f5ef','#1a8a4a')).clamp(true);
   const tt=document.getElementById('tooltip');
   svgEl.selectAll('path.c').data(feats).join('path').attr('class','c')
     .attr('d',path)
-    .attr('fill',d=>{
-      const iso=num2iso[String(d.id)];
-      if(iso===ISO) return '#eaf0fd';
-      const dat=lookup[iso];
-      return dat?colorScale(dat.n_products||1):'#e8e8e4';
-    })
+    .attr('fill',d=>{const iso=num2iso[String(d.id)];if(iso===ISO)return'#eaf0fd';const dat=lookup[iso];return dat?cScale(dat.n_products||1):'#e8e8e4';})
     .attr('stroke',d=>num2iso[String(d.id)]===ISO?'#1a56db':'rgba(255,255,255,.6)')
-    .attr('stroke-width',d=>num2iso[String(d.id)]===ISO?.8:.3)
+    .attr('stroke-width',d=>num2iso[String(d.id)]===ISO?.7:.3)
     .on('mousemove',function(event,d){
-      const iso=num2iso[String(d.id)];
-      const dat=lookup[iso]; if(!dat){tt.style.display='none';return;}
+      const iso=num2iso[String(d.id)];const dat=lookup[iso];if(!dat){tt.style.display='none';return;}
       const rect=wrap.getBoundingClientRect();
       let x=event.clientX-rect.left+12,y=event.clientY-rect.top+12;
-      if(x+230>W) x-=242; if(y+130>H) y-=140;
-      document.getElementById('tt-name').textContent=iso;
-      document.getElementById('tt-body').innerHTML=dir==='import'?`
-        <div class="tt-row"><span>Produits critiques</span><span class="tt-v">${dat.n_products}</span></div>
-        <div class="tt-row"><span>Imports (k€)</span><span class="tt-v">${Math.round((dat.import_value||0)/1000).toLocaleString('fr')}</span></div>
-        <div class="tt-row"><span>HHI moy.</span><span class="tt-v">${(dat.avg_hhi||0).toFixed(3)}</span></div>`:`
-        <div class="tt-row"><span>Produits exposés</span><span class="tt-v">${dat.n_products}</span></div>
-        <div class="tt-row"><span>Exports (k€)</span><span class="tt-v">${Math.round((dat.export_value||0)/1000).toLocaleString('fr')}</span></div>
-        <div class="tt-row"><span>LI / PIB</span><span class="tt-v">${dat.li_index!=null?(dat.li_index*100).toFixed(1)+'%':'—'}</span></div>`;
-      tt.style.display='block'; tt.style.left=x+'px'; tt.style.top=y+'px';
-    })
-    .on('mouseleave',()=>{tt.style.display='none';});
+      if(x+230>W)x-=242;if(y+120>H)y-=130;
+      document.getElementById('tt-n').textContent=cn(iso)+' ('+iso+')';
+      document.getElementById('tt-b').innerHTML=dir==='import'?`
+        <div class="tt-row"><span>Critical products</span><span class="tt-v">${dat.n_products}</span></div>
+        <div class="tt-row"><span>Imports (k€)</span><span class="tt-v">${Math.round((dat.import_value||0)/1000).toLocaleString('en')}</span></div>
+        <div class="tt-row"><span>Avg. HHI</span><span class="tt-v">${(dat.avg_hhi||0).toFixed(3)}</span></div>`:`
+        <div class="tt-row"><span>Exposed products</span><span class="tt-v">${dat.n_products}</span></div>
+        <div class="tt-row"><span>Exports (k€)</span><span class="tt-v">${Math.round((dat.export_value||0)/1000).toLocaleString('en')}</span></div>
+        <div class="tt-row"><span>LI / GDP</span><span class="tt-v">${dat.li_index!=null?(dat.li_index*100).toFixed(1)+'%':'—'}</span></div>`;
+      tt.style.display='block';tt.style.left=x+'px';tt.style.top=y+'px';
+    }).on('mouseleave',()=>{tt.style.display='none';});
 }
 
-/* ── Side panel ── */
+/* Side */
 function renderSide(){
-  const el=document.getElementById('side');
-  el.innerHTML='';
+  const el=document.getElementById('side');el.innerHTML='';
+  const info=summary[ISO]||{};
 
-  // Funnel (import only)
+  // Funnel
   if(dir==='import'){
-    const info=summary[ISO]||{};
     const max=info.n_ec||1;
-    const rows=[
-      ['EC (3 critères)',info.n_ec||0,'funnel-ec',max],
-      ['+ Absorption',info.n_abs||0,'funnel-abs',max],
-      ['+ Stickiness q75',info.n_stick||0,'funnel-stick',max],
-    ];
-    const sec=document.createElement('div'); sec.className='side-section';
-    sec.innerHTML=`<div class="side-title">Entonnoir listes</div>`+
-      rows.map(([label,val,cls,m])=>`
-        <div class="bar-row ${cls}">
-          <div class="bar-label">${label}</div>
-          <div class="bar-track"><div class="bar-fill" style="width:${m>0?val/m*100:0}%"></div></div>
-          <div class="bar-num">${val}</div>
-        </div>`).join('');
-    el.appendChild(sec);
+    const rows=[['EC (3 criteria)',info.n_ec||0,'#1a1a18',max],['+ Absorption',info.n_abs||0,'#6b6b65',max],['+ Stickiness q75',info.n_stick||0,'#a8a8a0',max]];
+    const s=document.createElement('div');s.className='side-sec';
+    s.innerHTML=`<div class="side-title">Product lists funnel</div>`+rows.map(([l,v,c,m])=>`
+      <div class="bar-row">
+        <div class="bar-label">${l}</div>
+        <div class="bar-track"><div class="bar-fill" style="width:${m>0?v/m*100:0}%;background:${c}"></div></div>
+        <div class="bar-num">${v}</div>
+      </div>`).join('');
+    el.appendChild(s);
   }
 
-  // Sector
+  // Sectors
   const data=dir==='import'?impData:expData;
-  const sectors=(data?.by_sector||[]).slice(0,10);
+  const sectors=(data?.by_sector||[]).slice(0,12);
   const maxSec=Math.max(...sectors.map(s=>dir==='import'?s.n_ec:s.n_pairs),1);
   if(sectors.length){
-    const sec=document.createElement('div'); sec.className='side-section';
-    sec.innerHTML=`<div class="side-title">Répartition sectorielle</div>`+
-      sectors.map(s=>{
-        const n=dir==='import'?s.n_ec:s.n_pairs;
-        return `<div class="bar-row">
-          <div class="bar-label" title="${s.sector_label}">${s.sector_label||s.hs2}</div>
-          <div class="bar-track"><div class="bar-fill sector-fill" style="width:${n/maxSec*100}%"></div></div>
-          <div class="bar-num">${n}</div>
-        </div>`;
-      }).join('');
-    el.appendChild(sec);
+    const s=document.createElement('div');s.className='side-sec';
+    s.innerHTML=`<div class="side-title">Sectoral distribution (HS2)</div>`+
+      sectors.map(sec=>{const n=dir==='import'?sec.n_ec:sec.n_pairs;return`
+      <div class="bar-row">
+        <div class="bar-label" title="${sec.sector_label}">${sec.sector_label||sec.hs2}</div>
+        <div class="bar-track"><div class="bar-fill" style="width:${n/maxSec*100}%;background:var(--accent);opacity:.6"></div></div>
+        <div class="bar-num">${n}</div>
+      </div>`;}).join('');
+    el.appendChild(s);
   }
 
-  // Top partners
-  if(dir==='import' && impData?.by_source){
-    const top=(impData.by_source||[]).slice(0,8);
+  // Partners
+  if(dir==='import'&&impData?.by_source){
+    const top=(impData.by_source||[]).slice(0,10);
     const maxP=Math.max(...top.map(d=>d.n_products),1);
-    const sec=document.createElement('div'); sec.className='side-section';
-    sec.innerHTML=`<div class="side-title">Top fournisseurs critiques</div>`+
-      top.map(d=>`<div class="bar-row partner-import">
-        <div class="bar-label">${d.top_exporter}</div>
-        <div class="bar-track"><div class="bar-fill" style="width:${d.n_products/maxP*100}%"></div></div>
+    const s=document.createElement('div');s.className='side-sec';
+    s.innerHTML=`<div class="side-title">Top critical suppliers</div>`+
+      top.map(d=>`<div class="bar-row">
+        <div class="bar-label">${cn(d.top_exporter)} (${d.top_exporter})</div>
+        <div class="bar-track"><div class="bar-fill" style="width:${d.n_products/maxP*100}%;background:var(--red)"></div></div>
         <div class="bar-num">${d.n_products}</div>
       </div>`).join('');
-    el.appendChild(sec);
-  } else if(dir==='export' && expData?.by_importer){
-    const top=(expData.by_importer||[]).slice(0,8);
+    el.appendChild(s);
+  } else if(dir==='export'&&expData?.by_importer){
+    const top=(expData.by_importer||[]).slice(0,10);
     const maxP=Math.max(...top.map(d=>d.n_products),1);
-    const sec=document.createElement('div'); sec.className='side-section';
-    sec.innerHTML=`<div class="side-title">Top pays exposés</div>`+
-      top.map(d=>`<div class="bar-row partner-export">
-        <div class="bar-label">${d.importer_name||d.importer}</div>
-        <div class="bar-track"><div class="bar-fill" style="width:${d.n_products/maxP*100}%"></div></div>
+    const s=document.createElement('div');s.className='side-sec';
+    s.innerHTML=`<div class="side-title">Top exposed countries</div>`+
+      top.map(d=>`<div class="bar-row">
+        <div class="bar-label">${d.importer_name&&d.importer_name!==d.importer?d.importer_name+' ('+d.importer+')':cn(d.importer)+' ('+d.importer+')'}</div>
+        <div class="bar-track"><div class="bar-fill" style="width:${d.n_products/maxP*100}%;background:var(--green)"></div></div>
         <div class="bar-num">${d.n_products}</div>
       </div>`).join('');
-    el.appendChild(sec);
-  }
-
-  // Upstreamness
-  if(dir==='import' && impData?.upstreamness_dist){
-    const ud=impData.upstreamness_dist;
-    const sec=document.createElement('div'); sec.className='side-section';
-    sec.innerHTML=`<div class="side-title">Upstreamness</div>
-      ${[['Moyenne',ud.up_mean],['Médiane',ud.up_median],['Q25',ud.up_q25],['Q75',ud.up_q75],['Max',ud.up_max]].map(([l,v])=>`
-      <div class="bar-row" style="margin-bottom:4px">
-        <div class="bar-label">${l}</div>
-        <div class="bar-num" style="font-family:var(--mono);font-size:.72rem;color:var(--text)">${v}</div>
-      </div>`).join('')}
-      <div style="font-size:.65rem;color:var(--text3);margin-top:.5rem">1 = bien final · ≫1 = input amont (Antràs et al.)</div>`;
-    el.appendChild(sec);
+    el.appendChild(s);
   }
 }
 
-/* ── Products table ── */
-function renderProducts(){
-  const el=document.getElementById('prod-section');
-  let prods=dir==='import'?impProds:expProds;
-
-  // Filtrer selon liste (import seulement)
-  if(dir==='import'){
-    if(list==='abs')   prods=prods.filter(p=>p.absorption===1);
-    if(list==='stick') prods=prods.filter(p=>p.mr===1);
+/* Charts */
+function renderCharts(){
+  const el=document.getElementById('charts');el.innerHTML='';
+  if(dir==='import'&&impProds.length){
+    el.appendChild(buildUpstreamChart(impProds));
+    el.appendChild(buildValueChart());
+  } else if(dir==='export'&&expProds.length){
+    el.appendChild(buildUpstreamChart(expProds));
   }
-  if(!prods.length){el.innerHTML='';return;}
+}
 
-  const top=prods.slice(0,60);
-  el.innerHTML=`
-    <div class="prod-header">
-      <span class="prod-title">${dir==='import'?'Produits dépendants à l\'import':'Produits reverse dependencies'}</span>
-      <span class="prod-count">${prods.length} produits · affichage 60</span>
-    </div>
-    <table>
-      <thead><tr>
-        <th>Code HS6</th><th>Description</th>
-        ${dir==='import'?`<th>Fournisseur</th><th>HHI</th><th>Part extra</th><th>Abs</th><th>Sticky</th><th>Upstream.</th>`
-        :`<th>Nb pays</th><th>Exports (k€)</th><th>HHI moy.</th><th>Upstream.</th>`}
-      </tr></thead>
-      <tbody id="prod-body"></tbody>
-    </table>`;
-  const tb=el.querySelector('#prod-body');
-  top.forEach(p=>{
-    if(dir==='import'){
-      tb.innerHTML+=`<tr>
-        <td>${p.code||''}</td><td class="desc" title="${p.description||''}">${p.description||''}</td>
-        <td>${p.top_exporter||'—'}</td>
-        <td class="num">${p.hhi!=null?p.hhi.toFixed(3):'—'}</td>
-        <td class="num">${p.share_imports_extra!=null?(p.share_imports_extra*100).toFixed(0)+'%':'—'}</td>
-        <td><span class="dot${p.absorption?` on`:''}"></span></td>
-        <td><span class="dot${p.mr?` on`:''}"></span></td>
-        <td class="num">${p.upstreamness!=null?p.upstreamness.toFixed(2):'—'}</td>
-      </tr>`;
-    } else {
-      tb.innerHTML+=`<tr>
-        <td>${p.code||''}</td><td class="desc" title="${p.description||''}">${p.description||''}</td>
-        <td class="num">${p.n_importers||0}</td>
-        <td class="num">${p.total_exports!=null?Math.round(p.total_exports/1000).toLocaleString('fr'):'—'}</td>
-        <td class="num">${p.avg_hhi!=null?p.avg_hhi.toFixed(3):'—'}</td>
-        <td class="num">${p.upstreamness!=null?p.upstreamness.toFixed(2):'—'}</td>
-      </tr>`;
-    }
+function buildUpstreamChart(prods){
+  const card=document.createElement('div');card.className='chart-card';
+  card.innerHTML=`<div class="chart-title">Upstreamness distribution (nb products)</div><svg id="uc" width="100%" height="140"></svg>`;
+  setTimeout(()=>{
+    const vals=prods.map(p=>p.upstreamness).filter(v=>v!=null&&!isNaN(v));
+    if(!vals.length){card.querySelector('#uc').remove();card.innerHTML+='<div style="font-size:.75rem;color:var(--text3)">No upstreamness data</div>';return;}
+    const svg=d3.select(card).select('#uc');
+    const W=card.offsetWidth-22,H=140,m={t:10,r:10,b:25,l:30};
+    svg.attr('viewBox',`0 0 ${W} ${H}`);
+    const bins=d3.bin().domain([1,6]).thresholds(20)(vals);
+    const x=d3.scaleLinear().domain([1,6]).range([m.l,W-m.r]);
+    const y=d3.scaleLinear().domain([0,d3.max(bins,b=>b.length)]).range([H-m.b,m.t]);
+    svg.selectAll('rect').data(bins).join('rect')
+      .attr('x',b=>x(b.x0)+1).attr('width',b=>Math.max(0,x(b.x1)-x(b.x0)-2))
+      .attr('y',b=>y(b.length)).attr('height',b=>H-m.b-y(b.length))
+      .attr('fill','var(--accent)').attr('opacity',.6);
+    svg.append('g').attr('transform',`translate(0,${H-m.b})`).call(d3.axisBottom(x).ticks(5)).selectAll('text').style('font-family','var(--mono)').style('font-size','9px');
+    svg.append('g').attr('transform',`translate(${m.l},0)`).call(d3.axisLeft(y).ticks(4)).selectAll('text').style('font-family','var(--mono)').style('font-size','9px');
+    svg.append('text').attr('x',W/2).attr('y',H-3).attr('text-anchor','middle').style('font-family','var(--mono)').style('font-size','9px').attr('fill','var(--text3)').text('Upstreamness score (1 = final good, >3 = upstream input)');
+  },50);
+  return card;
+}
+
+function buildValueChart(){
+  const prods=dir==='import'?impProds:[];
+  const filtered=prods.filter(p=>list==='ec'?true:list==='abs'?p.absorption===1:p.mr===1);
+  const total=filtered.reduce((s,p)=>s+(p.extra_import_value||0),0);
+  const info=summary[ISO]||{};
+  const card=document.createElement('div');card.className='chart-card';
+  const gdp=info.gdp_eur_bn;
+  const vi_pct=gdp&&total?(total/1e6/gdp*100).toFixed(2):'—';
+  card.innerHTML=`<div class="chart-title">Import values summary</div>
+    <div style="display:flex;flex-direction:column;gap:8px;margin-top:.5rem;font-size:.8rem;">
+      <div style="display:flex;justify-content:space-between"><span style="color:var(--text2)">Total critical imports</span><span style="font-family:var(--mono);color:var(--text)">${Math.round(total/1000).toLocaleString('en')} M€</span></div>
+      <div style="display:flex;justify-content:space-between"><span style="color:var(--text2)">Share of GDP</span><span style="font-family:var(--mono);color:var(--red)">${vi_pct}%</span></div>
+      <div style="display:flex;justify-content:space-between"><span style="color:var(--text2)">Avg. import value / product</span><span style="font-family:var(--mono);color:var(--text)">${filtered.length?Math.round(total/filtered.length/1000).toLocaleString('en'):'—'} k€</span></div>
+      <div style="display:flex;justify-content:space-between"><span style="color:var(--text2)">Products in list</span><span style="font-family:var(--mono);color:var(--blue)">${filtered.length}</span></div>
+    </div>`;
+  return card;
+}
+
+/* Products table */
+let allRows=[];
+function renderProducts(){
+  const prods=dir==='import'?impProds:expProds;
+  let rows;
+  if(dir==='import'){
+    rows=prods.filter(p=>list==='ec'?true:list==='abs'?p.absorption===1:p.mr===1);
+  } else { rows=prods; }
+  allRows=rows;
+  document.getElementById('prod-title').textContent=dir==='import'?'Critical import products':'Reverse dependency products';
+  document.getElementById('filter-input').value='';
+  sortCol=null;sortDir=1;
+  filteredRows=[...rows];
+  buildTable();
+}
+
+function filterTable(){
+  const q=document.getElementById('filter-input').value.toLowerCase();
+  filteredRows=q?allRows.filter(p=>(p.code||'').toLowerCase().includes(q)||(p.description||'').toLowerCase().includes(q)):([...allRows]);
+  buildTable();
+}
+
+function sortByCol(col,numeric){
+  if(sortCol===col)sortDir*=-1; else{sortCol=col;sortDir=1;}
+  filteredRows.sort((a,b)=>{
+    const av=a[col]??-Infinity,bv=b[col]??-Infinity;
+    if(numeric)return(av-bv)*sortDir;
+    return String(av).localeCompare(String(bv))*sortDir;
   });
+  buildTable();
+}
+
+function buildTable(){
+  const el=document.getElementById('prod-table');
+  const total=filteredRows.length;
+  document.getElementById('prod-count').textContent=`${total} products`;
+  const top=filteredRows.slice(0,80);
+  const sc=(col,num)=>`onclick="sortByCol('${col}',${num})"`;
+  const sc_class=col=>sortCol===col?(sortDir===1?'sort-asc':'sort-desc'):'';
+
+  if(dir==='import'){
+    el.innerHTML=`<table><thead><tr>
+      <th class="${sc_class('code')}" ${sc('code',false)}>HS6</th>
+      <th class="${sc_class('description')}" ${sc('description',false)}>Description</th>
+      <th class="${sc_class('top_exporter')}" ${sc('top_exporter',false)}>Top supplier</th>
+      <th class="${sc_class('hhi')}" ${sc('hhi',true)}>HHI</th>
+      <th class="${sc_class('share_imports_extra')}" ${sc('share_imports_extra',true)}>Extra share</th>
+      <th class="${sc_class('extra_import_value')}" ${sc('extra_import_value',true)}>Import (k€)</th>
+      <th>Abs.</th><th>Sticky</th>
+      <th class="${sc_class('upstreamness')}" ${sc('upstreamness',true)}>Upstream.</th>
+    </tr></thead><tbody>${top.map(p=>`<tr>
+      <td>${p.code||''}</td>
+      <td class="desc" title="${p.description||''}">${p.description||''}</td>
+      <td>${p.top_exporter?cn(p.top_exporter)+' ('+p.top_exporter+')':''}</td>
+      <td class="num">${p.hhi!=null?p.hhi.toFixed(3):'—'}</td>
+      <td class="num">${p.share_imports_extra!=null?(p.share_imports_extra*100).toFixed(0)+'%':'—'}</td>
+      <td class="num">${p.extra_import_value!=null?Math.round(p.extra_import_value/1000*10)/10:'—'}</td>
+      <td><span class="dot${p.absorption?' on':''}"></span></td>
+      <td><span class="dot${p.mr?' on':''}"></span></td>
+      <td class="num">${p.upstreamness!=null?p.upstreamness.toFixed(2):'—'}</td>
+    </tr>`).join('')}</tbody></table>`;
+  } else {
+    el.innerHTML=`<table><thead><tr>
+      <th class="${sc_class('code')}" ${sc('code',false)}>HS6</th>
+      <th class="${sc_class('description')}" ${sc('description',false)}>Description</th>
+      <th class="${sc_class('n_importers')}" ${sc('n_importers',true)}>Exposed ctys</th>
+      <th class="${sc_class('total_exports')}" ${sc('total_exports',true)}>Exports (k€)</th>
+      <th class="${sc_class('avg_hhi')}" ${sc('avg_hhi',true)}>Avg. HHI</th>
+      <th class="${sc_class('avg_source_share')}" ${sc('avg_source_share',true)}>Avg. share</th>
+      <th class="${sc_class('upstreamness')}" ${sc('upstreamness',true)}>Upstream.</th>
+    </tr></thead><tbody>${top.map(p=>`<tr>
+      <td>${p.code||''}</td>
+      <td class="desc" title="${p.description||''}">${p.description||''}</td>
+      <td class="num">${p.n_importers||0}</td>
+      <td class="num">${p.total_exports!=null?Math.round(p.total_exports/1000*10)/10:'—'}</td>
+      <td class="num">${p.avg_hhi!=null?p.avg_hhi.toFixed(3):'—'}</td>
+      <td class="num">${p.avg_source_share!=null?(p.avg_source_share*100).toFixed(0)+'%':'—'}</td>
+      <td class="num">${p.upstreamness!=null?p.upstreamness.toFixed(2):'—'}</td>
+    </tr>`).join('')}</tbody></table>`;
+  }
+  if(total>80){
+    document.getElementById('prod-table').innerHTML+=`<div style="text-align:center;padding:.75rem;font-family:var(--mono);font-size:.65rem;color:var(--text3)">Showing 80 of ${total} — use filter to narrow</div>`;
+  }
 }
 </script>
 </body>
