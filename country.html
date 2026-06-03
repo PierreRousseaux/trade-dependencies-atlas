@@ -189,15 +189,18 @@ let filteredRows=[];
 document.querySelectorAll('#dir-grp .ctrl-btn').forEach((b,i)=>b.classList.toggle('active',i===(dir==='import'?0:1)));
 document.querySelectorAll('#list-grp .ctrl-btn').forEach((b,i)=>b.classList.toggle('active',['ec','abs','stick'][i]===list));
 
+let annualData = null;
+
 Promise.all([
   fetch(`data/import/${ISO}_${PERIOD}.json`).then(r=>r.json()).catch(()=>null),
   fetch(`data/export/${ISO}_${PERIOD}.json`).then(r=>r.json()).catch(()=>null),
   fetch(`data/import/${ISO}_${PERIOD}_products.json`).then(r=>r.json()).catch(()=>[]),
   fetch(`data/export/${ISO}_${PERIOD}_products.json`).then(r=>r.json()).catch(()=>[]),
   fetch('data/indicators/summary.json').then(r=>r.json()).catch(()=>[]),
-  d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json')
-]).then(([imp,exp,ip,ep,sum,topo])=>{
-  impData=imp;expData=exp;impProds=ip||[];expProds=ep||[];
+  d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json'),
+  fetch(`data/import/${ISO}_annual.json`).then(r=>r.json()).catch(()=>null)
+]).then(([imp,exp,ip,ep,sum,topo,annual])=>{
+  impData=imp;expData=exp;impProds=ip||[];expProds=ep||[];annualData=annual;
   sum.forEach(d=>{summary[d.country]=d;});
   const info=summary[ISO]||{};
   document.getElementById('h-name').textContent=cn(ISO);
@@ -353,12 +356,76 @@ function renderSide(){
 /* Charts */
 function renderCharts(){
   const el=document.getElementById('charts');el.innerHTML='';
-  if(dir==='import'&&impProds.length){
+  if(dir==='import'){
+    if(annualData&&annualData.length) el.appendChild(buildAnnualChart());
     el.appendChild(buildUpstreamChart(impProds));
     el.appendChild(buildValueChart());
   } else if(dir==='export'&&expProds.length){
     el.appendChild(buildUpstreamChart(expProds));
   }
+}
+
+function buildAnnualChart(){
+  const card=document.createElement('div');
+  card.className='chart-card';
+  card.style.cssText='grid-column:1/-1';
+  card.innerHTML=`<div class="chart-title">Annual evolution of critical import products (2015–2024)</div>
+    <svg id="ac" width="100%" height="300"></svg>
+    <div style="display:flex;gap:1rem;margin-top:.5rem;flex-wrap:wrap;align-items:center;" id="ac-legend"></div>
+    <div style="font-family:var(--mono);font-size:.6rem;color:var(--text3);margin-top:.35rem;">
+      ℹ Absorption and stickiness criteria require Prodcom production data, not yet available for 2024.
+    </div>`;
+  setTimeout(()=>{
+    const W=card.offsetWidth-22,H=300,m={t:12,r:20,b:30,l:42};
+    const svg=d3.select(card).select('#ac');
+    svg.attr('viewBox',`0 0 ${W} ${H}`);
+
+    // EC : toutes les années
+    // Abs + Stick : seulement jusqu'à 2023 (Prodcom non dispo 2024)
+    const dataEC   = annualData;
+    const dataAbs  = annualData.filter(d=>d.year<=2023);
+    const dataStick= annualData.filter(d=>d.year<=2023);
+
+    const series=[
+      {key:'n_ec',   label:'EC criteria (2015–2024)',         data:dataEC,    color:'#1a1a18',dash:'none'},
+      {key:'n_abs',  label:'EC + Absorption (2015–2023)',      data:dataAbs,   color:'#1a56db',dash:'none'},
+      {key:'n_stick',label:'EC + Abs + Stickiness (2015–2023)',data:dataStick, color:'#d63b2f',dash:'4,3'},
+    ].filter(s=>s.data.some(d=>(d[s.key]||0)>0));
+
+    const x=d3.scaleLinear().domain([2015,2024]).range([m.l,W-m.r]);
+    const yMax=d3.max(dataEC,d=>d.n_ec||0)*1.12||10;
+    const y=d3.scaleLinear().domain([0,yMax]).range([H-m.b,m.t]);
+
+    // grid lines
+    y.ticks(5).forEach(t=>{
+      svg.append('line').attr('x1',m.l).attr('x2',W-m.r)
+        .attr('y1',y(t)).attr('y2',y(t))
+        .attr('stroke','#e4e4e0').attr('stroke-width',.5);
+    });
+
+    svg.append('g').attr('transform',`translate(0,${H-m.b})`)
+      .call(d3.axisBottom(x).ticks(10).tickFormat(d3.format('d')))
+      .selectAll('text').style('font-family','var(--mono)').style('font-size','9px');
+    svg.append('g').attr('transform',`translate(${m.l},0)`)
+      .call(d3.axisLeft(y).ticks(5))
+      .selectAll('text').style('font-family','var(--mono)').style('font-size','9px');
+
+    series.forEach(s=>{
+      const l=d3.line().x(d=>x(d.year)).y(d=>y(d[s.key]||0)).defined(d=>d[s.key]!=null);
+      svg.append('path').datum(s.data).attr('fill','none')
+        .attr('stroke',s.color).attr('stroke-width',2)
+        .attr('stroke-dasharray',s.dash).attr('d',l);
+      svg.selectAll(null).data(s.data.filter(d=>d[s.key]!=null)).join('circle')
+        .attr('cx',d=>x(d.year)).attr('cy',d=>y(d[s.key]||0))
+        .attr('r',3.5).attr('fill',s.color);
+    });
+
+    const leg=card.querySelector('#ac-legend');
+    series.forEach(s=>{
+      leg.innerHTML+=`<span style="display:flex;align-items:center;gap:5px;font-family:var(--mono);font-size:.65rem;color:var(--text2)"><span style="width:16px;height:2px;background:${s.color};display:inline-block"></span>${s.label}</span>`;
+    });
+  },50);
+  return card;
 }
 
 function kernelDensityEstimator(kernel, X) {
