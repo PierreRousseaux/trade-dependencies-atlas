@@ -300,45 +300,91 @@ function renderSide(){
   // Funnel
   if(dir==='import'){
     const max=info.n_ec||1;
-    const rows=[['EC (3 criteria)',info.n_ec||0,'#1a1a18',max],['+ Absorption',info.n_abs||0,'#6b6b65',max],['+ Stickiness q75',info.n_stick||0,'#a8a8a0',max]];
+    const rows=[
+      ['EC (3 criteria)',    info.n_ec||0,    '#1a1a18', max, 'ec'],
+      ['+ Absorption',       info.n_abs||0,   '#6b6b65', max, 'abs'],
+      ['+ Stickiness q75',   info.n_stick||0, '#a8a8a0', max, 'stick'],
+    ];
     const s=document.createElement('div');s.className='side-sec';
-    s.innerHTML=`<div class="side-title">Product lists funnel</div>`+rows.map(([l,v,c,m])=>`
-      <div class="bar-row">
-        <div class="bar-label">${l}</div>
-        <div class="bar-track"><div class="bar-fill" style="width:${m>0?v/m*100:0}%;background:${c}"></div></div>
+    s.innerHTML=`<div class="side-title">Product lists funnel</div>`+rows.map(([l,v,c,m,key])=>`
+      <div class="bar-row" style="cursor:pointer;${list===key?'outline:1px solid var(--accent);border-radius:2px;':''}"
+           onclick="setList('${key}')">
+        <div class="bar-label" style="${list===key?'color:var(--accent);font-weight:500':''}">${l}</div>
+        <div class="bar-track"><div class="bar-fill" style="width:${m>0?v/m*100:0}%;background:${list===key?'var(--accent)':c}"></div></div>
         <div class="bar-num">${v}</div>
       </div>`).join('');
     el.appendChild(s);
   }
 
-  // Sectors
-  const data=dir==='import'?impData:expData;
-  const sectors=(data?.by_sector||[]).slice(0,12);
-  const maxSec=Math.max(...sectors.map(s=>dir==='import'?s.n_ec:s.n_pairs),1);
-  if(sectors.length){
-    const s=document.createElement('div');s.className='side-sec';
-    s.innerHTML=`<div class="side-title">Sectoral distribution (HS2)</div>`+
-      sectors.map(sec=>{const n=dir==='import'?sec.n_ec:sec.n_pairs;return`
-      <div class="bar-row">
-        <div class="bar-label" title="${sec.sector_label}">${sec.sector_label||sec.hs2}</div>
-        <div class="bar-track"><div class="bar-fill" style="width:${n/maxSec*100}%;background:var(--accent);opacity:.6"></div></div>
-        <div class="bar-num">${n}</div>
-      </div>`;}).join('');
-    el.appendChild(s);
+  // Sectoral distribution — calculé depuis les produits filtrés selon la liste active
+  if(dir==='import' && impProds.length){
+    const filtered = list==='ec' ? impProds
+                   : list==='abs' ? impProds.filter(p=>p.absorption===1)
+                   : impProds.filter(p=>p.mr===1);
+    // Grouper par HS2
+    const bySector={};
+    filtered.forEach(p=>{
+      const hs2=p.code?p.code.substring(0,2):'??';
+      if(!bySector[hs2]) bySector[hs2]={hs2,n:0,label:''};
+      bySector[hs2].n++;
+    });
+    // Récupérer les labels depuis impData.by_sector
+    (impData?.by_sector||[]).forEach(s=>{
+      if(bySector[s.hs2]) bySector[s.hs2].label=s.sector_label||s.hs2;
+    });
+    const sectors=Object.values(bySector).sort((a,b)=>b.n-a.n).slice(0,12);
+    const maxSec=Math.max(...sectors.map(s=>s.n),1);
+    const listLabel=list==='ec'?'EC':list==='abs'?'EC+Abs':'EC+Abs+Stick';
+    if(sectors.length){
+      const s=document.createElement('div');s.className='side-sec';
+      s.innerHTML=`<div class="side-title">Sectoral distribution — ${listLabel}</div>`+
+        sectors.map(sec=>`<div class="bar-row">
+          <div class="bar-label" title="${sec.label||sec.hs2}">${sec.label||sec.hs2}</div>
+          <div class="bar-track"><div class="bar-fill" style="width:${sec.n/maxSec*100}%;background:var(--accent);opacity:.65"></div></div>
+          <div class="bar-num">${sec.n}</div>
+        </div>`).join('');
+      el.appendChild(s);
+    }
+  } else if(dir==='export' && expData?.by_sector){
+    const sectors=(expData.by_sector||[]).slice(0,12);
+    const maxSec=Math.max(...sectors.map(s=>s.n_pairs),1);
+    if(sectors.length){
+      const s=document.createElement('div');s.className='side-sec';
+      s.innerHTML=`<div class="side-title">Sectoral distribution (export leverage)</div>`+
+        sectors.map(sec=>`<div class="bar-row">
+          <div class="bar-label" title="${sec.sector_label||sec.hs2}">${sec.sector_label||sec.hs2}</div>
+          <div class="bar-track"><div class="bar-fill" style="width:${sec.n_pairs/maxSec*100}%;background:var(--green);opacity:.65"></div></div>
+          <div class="bar-num">${sec.n_pairs}</div>
+        </div>`).join('');
+      el.appendChild(s);
+    }
   }
 
-  // Partners
-  if(dir==='import'&&impData?.by_source){
-    const top=(impData.by_source||[]).slice(0,10);
-    const maxP=Math.max(...top.map(d=>d.n_products),1);
-    const s=document.createElement('div');s.className='side-sec';
-    s.innerHTML=`<div class="side-title">Top critical suppliers</div>`+
-      top.map(d=>`<div class="bar-row">
-        <div class="bar-label">${cn(d.top_exporter)} (${d.top_exporter})</div>
-        <div class="bar-track"><div class="bar-fill" style="width:${d.n_products/maxP*100}%;background:var(--red)"></div></div>
-        <div class="bar-num">${d.n_products}</div>
-      </div>`).join('');
-    el.appendChild(s);
+  // Top suppliers — filtrés selon la liste active
+  if(dir==='import' && impProds.length){
+    const filtered = list==='ec' ? impProds
+                   : list==='abs' ? impProds.filter(p=>p.absorption===1)
+                   : impProds.filter(p=>p.mr===1);
+    // Grouper par top_exporter
+    const bySupplier={};
+    filtered.forEach(p=>{
+      const s=p.top_exporter||'?';
+      if(!bySupplier[s]) bySupplier[s]={iso:s,n:0};
+      bySupplier[s].n++;
+    });
+    const top=Object.values(bySupplier).sort((a,b)=>b.n-a.n).slice(0,10);
+    const maxP=Math.max(...top.map(d=>d.n),1);
+    const listLabel=list==='ec'?'EC':list==='abs'?'EC+Abs':'EC+Abs+Stick';
+    if(top.length){
+      const s=document.createElement('div');s.className='side-sec';
+      s.innerHTML=`<div class="side-title">Top critical suppliers — ${listLabel}</div>`+
+        top.map(d=>`<div class="bar-row">
+          <div class="bar-label">${cn(d.iso)} (${d.iso})</div>
+          <div class="bar-track"><div class="bar-fill" style="width:${d.n/maxP*100}%;background:var(--red)"></div></div>
+          <div class="bar-num">${d.n}</div>
+        </div>`).join('');
+      el.appendChild(s);
+    }
   } else if(dir==='export'&&expData?.by_importer){
     const top=(expData.by_importer||[]).slice(0,10);
     const maxP=Math.max(...top.map(d=>d.n_products),1);
