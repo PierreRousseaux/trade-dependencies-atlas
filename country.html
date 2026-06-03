@@ -2,6 +2,15 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+CiAgPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iNCIgZmlsbD0iIzFhNTZkYiIvPgogIDx0ZXh0IHg9IjE2IiB5PSIyMiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC13ZWlnaHQ9ImJvbGQiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IndoaXRlIj5UPC90ZXh0PgogIDxjaXJjbGUgY3g9IjI0IiBjeT0iOSIgcj0iNCIgZmlsbD0iI2Q2M2IyZiIvPgo8L3N2Zz4=">
+  <meta property="og:title" content="Trade Dependency Atlas">
+  <meta property="og:description" content="An interactive atlas of import vulnerabilities and export leverage across 48 economies. Built on the Mejean &amp; Rousseaux (2024) five-criteria methodology.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://pierrerousseaux.github.io/trade-dependencies-atlas/">
+  <meta property="og:image" content="https://pierrerousseaux.github.io/trade-dependencies-atlas/og-preview.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Trade Dependency Atlas">
+  <meta name="twitter:description" content="Import vulnerabilities &amp; export leverage for 48 economies.">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Trade Dependency Atlas — Country</title>
 <style>
@@ -208,23 +217,33 @@ function renderKPIs(){
   const info=summary[ISO]||{};
   const fmt=(v,pct)=>v!=null&&!isNaN(v)&&isFinite(v)?(pct?(v*100).toFixed(1)+'%':v.toFixed(2)):'—';
   if(dir==='import'){
-    const n=list==='ec'?info.n_ec:list==='abs'?info.n_abs:info.n_stick;
-    const vi_n=list==='ec'?info.vi_index:list==='abs'?info.vi_index:info.vi_index; // same VI for now
-    const imp_val=impProds.filter(p=>list==='ec'?true:list==='abs'?p.absorption===1:p.mr===1).reduce((s,p)=>s+(p.extra_import_value||0),0);
+    // Filtrer les produits selon la liste active
+    const filtered = list==='ec' ? impProds
+                   : list==='abs' ? impProds.filter(p=>p.absorption===1)
+                   : impProds.filter(p=>p.mr===1);
+    const n = filtered.length;
+    // VI et imports critiques recalculés sur le sous-ensemble
+    const imp_val = filtered.reduce((s,p)=>s+(p.extra_import_value||0), 0);
+    const imp_val_up = filtered.reduce((s,p)=>s+((p.extra_import_value||0)*(p.upstreamness||1)), 0);
+    const gdp = info.gdp_eur_bn;
+    const vi_list = (gdp && imp_val_up) ? (imp_val_up / 1e6 / gdp) : null;
+    const listLabel = list==='ec' ? 'EC products' : list==='abs' ? 'EC + Absorption' : 'EC + Abs + Stickiness';
+    const dbsColor = info.dbs==null?'inherit':info.dbs<.85?'var(--blue)':info.dbs>1.15?'var(--red)':'inherit';
     el.innerHTML=`
-      <div class="kpi"><div class="kpi-l">${list==='ec'?'EC products':list==='abs'?'EC + Absorption':'EC + Abs + Stickiness'}</div><div class="kpi-v blue">${n??'—'}</div></div>
-      <div class="kpi"><div class="kpi-l">VI / GDP</div><div class="kpi-v red">${fmt(info.vi_index,true)}</div></div>
+      <div class="kpi"><div class="kpi-l">${listLabel}</div><div class="kpi-v blue">${n}</div></div>
+      <div class="kpi"><div class="kpi-l">VI / GDP (${listLabel})</div><div class="kpi-v red">${fmt(vi_list,true)}</div></div>
       <div class="kpi"><div class="kpi-l">Critical imports (M€)</div><div class="kpi-v">${Math.round(imp_val/1000).toLocaleString('en')}</div></div>
-      <div class="kpi"><div class="kpi-l">Avg. GDP (Bn€)</div><div class="kpi-v">${info.gdp_eur_bn!=null?Math.round(info.gdp_eur_bn).toLocaleString('en'):'—'}</div></div>
-      <div class="kpi"><div class="kpi-l">DBS</div><div class="kpi-v" style="color:${info.dbs==null?'inherit':info.dbs<.85?'var(--blue)':info.dbs>1.15?'var(--red)':'inherit'}">${fmt(info.dbs,false)}</div></div>`;
+      <div class="kpi"><div class="kpi-l">Avg. GDP (Bn€)</div><div class="kpi-v">${gdp!=null?Math.round(gdp).toLocaleString('en'):'—'}</div></div>
+      <div class="kpi"><div class="kpi-l">DBS</div><div class="kpi-v" style="color:${dbsColor}">${fmt(info.dbs,false)}</div></div>`;
   } else {
     const prod_filtered=expProds;
+    const fmt_=(v,pct)=>v!=null&&!isNaN(v)&&isFinite(v)?(pct?(v*100).toFixed(1)+'%':v.toFixed(2)):'—';
     el.innerHTML=`
       <div class="kpi"><div class="kpi-l">Reverse dep. products</div><div class="kpi-v green">${info.n_prod_exp??'—'}</div></div>
       <div class="kpi"><div class="kpi-l">Exposed countries</div><div class="kpi-v blue">${info.n_cty_exp??'—'}</div></div>
-      <div class="kpi"><div class="kpi-l">LI / GDP</div><div class="kpi-v green">${fmt(info.li_index,true)}</div></div>
+      <div class="kpi"><div class="kpi-l">LI / GDP</div><div class="kpi-v green">${fmt_(info.li_index,true)}</div></div>
       <div class="kpi"><div class="kpi-l">Critical exports (M€)</div><div class="kpi-v">${Math.round(prod_filtered.reduce((s,p)=>s+(p.total_exports||0),0)/1000).toLocaleString('en')}</div></div>
-      <div class="kpi"><div class="kpi-l">DBS</div><div class="kpi-v" style="color:${info.dbs==null?'inherit':info.dbs<.85?'var(--blue)':info.dbs>1.15?'var(--red)':'inherit'}">${fmt(info.dbs,false)}</div></div>`;
+      <div class="kpi"><div class="kpi-l">DBS</div><div class="kpi-v" style="color:${info.dbs==null?'inherit':info.dbs<.85?'var(--blue)':info.dbs>1.15?'var(--red)':'inherit'}">${fmt_(info.dbs,false)}</div></div>`;
   }
 }
 
