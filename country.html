@@ -2,26 +2,35 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+CiAgPGNpcmNsZSBjeD0iMTAiIGN5PSIxNiIgcj0iOSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZDYzYjJmIiBzdHJva2Utd2lkdGg9IjEuOCIvPgogIDxjaXJjbGUgY3g9IjIyIiBjeT0iMTYiIHI9IjkiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzFhNTZkYiIgc3Ryb2tlLXdpZHRoPSIxLjgiLz4KPC9zdmc+">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+CiAgPGNpcmNsZSBjeD0iMTIiIGN5PSIxNiIgcj0iOSIgZmlsbD0iI2Q2M2IyZiIgc3R5bGU9Im1peC1ibGVuZC1tb2RlOm11bHRpcGx5Ii8+CiAgPGNpcmNsZSBjeD0iMjAiIGN5PSIxNiIgcj0iOSIgZmlsbD0iIzFhNTZkYiIgc3R5bGU9Im1peC1ibGVuZC1tb2RlOm11bHRpcGx5Ii8+Cjwvc3ZnPg==">
   <meta property="og:title" content="Trade Dependency Atlas">
-  <meta property="og:description" content="An interactive atlas of import vulnerabilities and export leverage across 48 economies. Built on the Mejean &amp; Rousseaux (2024) five-criteria methodology.">
+  <meta property="og:description" content="An interactive atlas of import vulnerabilities and export leverage across 232 economies. Built on the Mejean &amp; Rousseaux (2024) five-criteria methodology.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://pierrerousseaux.github.io/trade-dependencies-atlas/">
   <meta property="og:image" content="https://pierrerousseaux.github.io/trade-dependencies-atlas/og-preview.png">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Trade Dependency Atlas">
-  <meta name="twitter:description" content="Import vulnerabilities &amp; export leverage for 48 economies.">
+  <meta name="twitter:description" content="Import vulnerabilities &amp; export leverage for 232 economies.">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Trade Dependency Atlas — Country</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
-:root{--bg:#fff;--bg2:#f7f7f5;--bg3:#efefed;--border:#e4e4e0;--border2:#d0d0ca;--text:#1a1a18;--text2:#6b6b65;--text3:#a8a8a0;--accent:#1a56db;--red:#d63b2f;--blue:#1a56db;--green:#1a8a4a;--mono:'DM Mono',monospace;--sans:'DM Sans',sans-serif;}
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap');
+:root{
+  --bg:#fff;--bg2:#f7f7f5;--bg3:#efefed;--border:#e4e4e0;--border2:#d0d0ca;
+  --text:#1a1a18;--text2:#6b6b65;--text3:#a8a8a0;
+  --accent:#1a56db;--red:#d63b2f;--blue:#1a56db;--green:#1a8a4a;
+  --mono:'DM Mono',monospace;--sans:'DM Sans',sans-serif;
+  --radius:4px;--radius-sm:3px;
+  --shadow-sm:0 1px 2px rgba(20,20,25,.04);
+  --shadow:0 1px 2px rgba(20,20,25,.04);
+  --shadow-lg:0 4px 14px rgba(0,0,0,.07);
+  --ease:cubic-bezier(.16,1,.3,1);
+}
 *{box-sizing:border-box;margin:0;padding:0;}html{font-size:14px;}
 body{font-family:var(--sans);background:var(--bg);color:var(--text);}
 
 nav{display:flex;align-items:center;padding:0 2rem;border-bottom:1px solid var(--border);background:var(--bg);position:sticky;top:0;z-index:100;}
-.nav-logo{font-family:var(--mono);font-size:.8rem;font-weight:500;color:var(--text);padding:1rem 1.5rem 1rem 0;border-right:1px solid var(--border);margin-right:1rem;letter-spacing:-.01em;}
-.nav-logo span{color:var(--accent);}
+.nav-logo{display:flex;align-items:center;font-family:var(--mono);font-size:.8rem;font-weight:500;color:var(--text);padding:1rem 1.5rem 1rem 0;border-right:1px solid var(--border);margin-right:1rem;letter-spacing:-.01em;}
 .nav-links{display:flex;}
 .nav-link{font-size:.78rem;color:var(--text2);text-decoration:none;padding:.85rem .9rem;border-bottom:2px solid transparent;transition:color .12s,border-color .12s;}
 .nav-link:hover{color:var(--text);}
@@ -29,7 +38,7 @@ nav{display:flex;align-items:center;padding:0 2rem;border-bottom:1px solid var(-
 .nav-spacer{flex:1;}
 
 /* Country header */
-.chead{display:flex;align-items:center;gap:1rem;padding:.65rem 2rem;border-bottom:1px solid var(--border);}
+.chead{display:flex;align-items:center;gap:1rem;padding:.65rem 2rem;border-bottom:1px solid var(--border);flex-wrap:wrap;}
 .back{font-family:var(--mono);font-size:.68rem;color:var(--text3);text-decoration:none;padding:.28rem .6rem;border:1px solid var(--border2);border-radius:3px;}
 .back:hover{color:var(--accent);border-color:var(--accent);}
 .chead-name{font-weight:600;font-size:1.1rem;letter-spacing:-.02em;}
@@ -44,73 +53,76 @@ nav{display:flex;align-items:center;padding:0 2rem;border-bottom:1px solid var(-
 .ctrl-btn:first-child{border-radius:3px 0 0 3px;}
 .ctrl-btn:last-child{border-radius:0 3px 3px 0;}
 .ctrl-btn.active{background:var(--text);color:var(--bg);border-color:var(--text);}
+.ctrl-btn:disabled,.ctrl-btn-disabled{opacity:.35;cursor:not-allowed!important;}
 .ctrl-sep{width:1px;background:var(--border2);margin:0 .4rem;align-self:stretch;}
+.ctrl-group.period .ctrl-btn.active{background:var(--accent);border-color:var(--accent);}
+#ctrl-notice{display:none;padding:.5rem 2rem;font-family:var(--mono);font-size:.68rem;color:var(--accent);background:var(--bg2);border-bottom:1px solid var(--border);}
 
 /* KPI */
 .kpi-bar{display:flex;border-bottom:1px solid var(--border);overflow-x:auto;}
-.kpi{padding:.5rem 1.1rem;border-right:1px solid var(--border);flex-shrink:0;}
+.kpi{padding:.55rem 1.15rem;border-right:1px solid var(--border);flex-shrink:0;}
 .kpi-l{font-family:var(--mono);font-size:.6rem;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px;}
-.kpi-v{font-family:var(--mono);font-size:.9rem;font-weight:500;color:var(--text);}
+.kpi-v{font-family:var(--mono);font-size:.92rem;font-weight:500;color:var(--text);}
 .kpi-v.blue{color:var(--blue);}
 .kpi-v.red{color:var(--red);}
 .kpi-v.green{color:var(--green);}
 
 /* Main grid */
-.main{display:grid;grid-template-columns:1fr 320px;border-bottom:1px solid var(--border);}
+.main{display:grid;grid-template-columns:1fr 340px;border-bottom:1px solid var(--border);align-items:stretch;}
 @media(max-width:880px){.main{grid-template-columns:1fr;}}
 #map-wrap{position:relative;background:#f0f2f0;border-right:1px solid var(--border);}
-#tooltip{display:none;position:absolute;background:var(--bg);border:1px solid var(--border2);border-radius:4px;padding:.65rem .9rem;font-size:.75rem;max-width:220px;pointer-events:none;z-index:100;box-shadow:0 4px 14px rgba(0,0,0,.07);}
-.tt-name{font-weight:500;margin-bottom:.3rem;}
+#tooltip{display:none;position:absolute;background:var(--bg);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:.65rem .9rem;font-size:.75rem;max-width:230px;pointer-events:none;z-index:100;box-shadow:var(--shadow-lg);}
+.tt-name{font-weight:600;margin-bottom:.3rem;}
 .tt-row{display:flex;justify-content:space-between;gap:.6rem;color:var(--text2);margin-bottom:2px;}
 .tt-v{font-family:var(--mono);font-size:.68rem;color:var(--text);}
 
 /* Side panel */
 .side{overflow-y:auto;max-height:calc(100vh - 180px);}
-.side-sec{border-bottom:1px solid var(--border);padding:.9rem 1rem;}
+.side-sec{border-bottom:1px solid var(--border);padding:.95rem 1rem;}
 .side-title{font-family:var(--mono);font-size:.62rem;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin-bottom:.65rem;}
+.side-empty{font-size:.72rem;color:var(--text3);font-style:italic;padding:.3rem 0;}
 .bar-row{display:flex;align-items:center;gap:.5rem;margin-bottom:5px;}
 .bar-label{font-size:.7rem;color:var(--text2);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.bar-track{width:80px;background:var(--bg3);border-radius:2px;height:14px;flex-shrink:0;overflow:hidden;}
-.bar-fill{height:100%;border-radius:2px;transition:width .5s cubic-bezier(.16,1,.3,1);}
-.bar-num{font-family:var(--mono);font-size:.65rem;color:var(--text3);width:32px;text-align:right;flex-shrink:0;}
-
-/* Upstreamness distribution chart */
-#upstream-chart{margin-top:.5rem;}
+.bar-track{width:80px;background:var(--bg3);border-radius:3px;height:14px;flex-shrink:0;overflow:hidden;}
+.bar-fill{height:100%;border-radius:3px;transition:width .5s var(--ease);}
+.bar-num{font-family:var(--mono);font-size:.65rem;color:var(--text3);width:34px;text-align:right;flex-shrink:0;}
 
 /* Charts bottom */
-.charts{padding:1.5rem 2rem;display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;border-bottom:1px solid var(--border);}
-@media(max-width:700px){.charts{grid-template-columns:1fr;}}
-.chart-card{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:1rem 1.1rem;}
+.charts{padding:1.5rem 2rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.25rem;border-bottom:1px solid var(--border);align-items:stretch;}
+.chart-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.1rem;display:flex;flex-direction:column;}
 .chart-title{font-family:var(--mono);font-size:.62rem;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin-bottom:.75rem;}
+.chart-card svg{flex:1;min-height:0;}
 
 /* Products */
-.prod-section{padding:1rem 2rem 2rem;}
+.prod-section{padding:1rem 2rem 2.5rem;}
 .prod-header{display:flex;align-items:center;gap:1rem;margin-bottom:.6rem;flex-wrap:wrap;}
 .prod-title{font-family:var(--mono);font-size:.65rem;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);}
 .prod-count{font-family:var(--mono);font-size:.62rem;color:var(--text3);margin-left:auto;}
 .filter-bar{display:flex;gap:.4rem;align-items:center;flex-wrap:wrap;}
 .filter-input{font-family:var(--mono);font-size:.68rem;padding:.25rem .5rem;border:1px solid var(--border2);border-radius:3px;outline:none;width:160px;}
 .filter-input:focus{border-color:var(--accent);}
+.prod-table-wrap{border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
 table{width:100%;border-collapse:collapse;font-size:.75rem;}
-th{text-align:left;padding:.3rem .6rem;font-family:var(--mono);font-size:.58rem;letter-spacing:.05em;text-transform:uppercase;color:var(--text3);border-bottom:1px solid var(--border);font-weight:400;cursor:pointer;white-space:nowrap;user-select:none;}
+th{text-align:left;padding:.45rem .6rem;font-family:var(--mono);font-size:.58rem;letter-spacing:.05em;text-transform:uppercase;color:var(--text3);border-bottom:1px solid var(--border);font-weight:400;cursor:pointer;white-space:nowrap;user-select:none;background:var(--bg2);}
 th:hover{color:var(--accent);}
 th.sort-asc::after{content:' ↑';}
 th.sort-desc::after{content:' ↓';}
-td{padding:.32rem .6rem;border-bottom:1px solid var(--bg3);color:var(--text2);}
+td{padding:.36rem .6rem;border-bottom:1px solid var(--bg3);color:var(--text2);}
 td:first-child{font-family:var(--mono);font-size:.65rem;color:var(--accent);}
 td.desc{color:var(--text);max-width:260px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 td.num{font-family:var(--mono);text-align:right;color:var(--text);font-size:.72rem;}
 .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--bg3);}
 .dot.on{background:var(--accent);}
 tr:hover td{background:var(--bg2);}
+.table-note{text-align:center;padding:.75rem;font-family:var(--mono);font-size:.65rem;color:var(--text3);background:var(--bg2);}
 
-footer{padding:.6rem 2rem;border-top:1px solid var(--border);font-family:var(--mono);font-size:.6rem;color:var(--text3);display:flex;justify-content:space-between;}
+footer{padding:.65rem 2rem;border-top:1px solid var(--border);font-family:var(--mono);font-size:.6rem;color:var(--text3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:.4rem;}
 footer a{color:var(--text3);text-decoration:underline;}
 /* --- PierreRousseaux.com visual system --- */
 :root{--bg:#fff;--bg2:#f7f9fb;--bg3:#eef2f6;--border:#e6ebf1;--border2:#cdd6df;--text:#12233d;--text2:#5b6673;--text3:#8b95a1;--accent:#0b5394;--blue:#0b5394;--red:#a4303f;--green:#286b3c;--sans:Arial,Helvetica,sans-serif;--mono:Consolas,Menlo,monospace}
 html{font-size:15px} body{font-family:Arial,Helvetica,sans-serif;background:#fff;color:#12233d;line-height:1.55}
 nav{min-height:66px;padding:0 max(20px,calc((100vw - 1150px)/2));border-bottom:1px solid #e6ebf1;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);box-shadow:0 1px 0 rgba(18,35,61,.02)}
-.nav-logo{font-family:Arial,Helvetica,sans-serif;font-size:15px;font-weight:800;color:#12233d;padding:0 24px 0 0;border-right:0;margin-right:14px;letter-spacing:-.2px}.nav-logo span{color:#0b5394}.nav-logo svg{display:none!important}
+.nav-logo{font-family:Arial,Helvetica,sans-serif;font-size:15px;font-weight:800;color:#12233d;padding:0 24px 0 0;border-right:0;margin-right:14px;letter-spacing:-.2px}.nav-logo span{color:#0b5394}
 .nav-link{font-size:13.5px;font-weight:600;color:#697485;padding:23px 14px 20px;border-bottom:3px solid transparent}.nav-link:hover{color:#0b5394}.nav-link.active{color:#0b5394;border-bottom-color:#0b5394}
 .nav-cta{font-family:Arial,Helvetica,sans-serif;font-size:12.5px;font-weight:700;color:#0b5394;border:1px solid #b9cce0;padding:7px 13px;border-radius:18px;background:#fff}
 .hero{max-width:none;padding:52px max(20px,calc((100vw - 1150px)/2)) 48px;grid-template-columns:minmax(0,1.55fr) minmax(280px,.75fr);gap:54px;background:linear-gradient(135deg,#0b5394 0%,#0a4172 100%);border:0;color:#fff}
@@ -128,12 +140,31 @@ footer{max-width:1150px;margin:0 auto;padding:22px 0;border-top:1px solid #e6ebf
 .chead{padding:26px max(20px,calc((100vw - 1150px)/2))!important;background:linear-gradient(135deg,#0b5394 0%,#0a4172 100%)!important;border:0!important;color:#fff!important}.back{color:#cfe2f3!important}.chead-name{font-size:26px!important;font-weight:800!important;color:#fff!important}.chead-iso,.chead-gdp{color:#cfe2f3!important}.main{max-width:1150px;margin:26px auto;border:1px solid #e6ebf1!important;border-radius:10px;overflow:hidden;box-shadow:0 5px 18px rgba(18,35,61,.05)}.side{background:#fff}.side-sec{padding:16px!important;border-color:#e6ebf1!important}.side-title,.chart-title,.prod-title{font-family:Arial,Helvetica,sans-serif!important;font-size:11px!important;font-weight:800!important;color:#0b5394!important}.charts{max-width:1150px;margin:0 auto;padding:0 0 26px!important;border:0!important;gap:16px!important}.chart-card{background:#fff!important;border:1px solid #e6ebf1!important;border-radius:10px!important;padding:18px!important}.prod-section{max-width:1150px;margin:0 auto;padding:0 0 48px!important}.filter-input{font-family:Arial,Helvetica,sans-serif!important;border-radius:6px!important;padding:7px 10px!important}.prod-section table{border:1px solid #e6ebf1;border-radius:8px;overflow:hidden}.prod-section th{background:#f7f9fb;font-family:Arial,Helvetica,sans-serif!important;font-weight:700!important;color:#5b6673!important;padding:9px!important}.prod-section td{padding:8px 9px!important}
 @media(max-width:800px){nav{padding:0 14px;overflow-x:auto}.nav-logo{font-size:13px;white-space:nowrap}.nav-link{padding:21px 9px;font-size:12px}.nav-cta{display:none}.hero{grid-template-columns:1fr;padding:36px 18px}.hero-title{font-size:36px}.controls,.kpi-bar{padding-left:14px;padding-right:14px}.what-section,.papers-section{margin-left:14px;margin-right:14px}.papers-section{padding-left:0;padding-right:0}.main,.charts,.prod-section{margin-left:12px;margin-right:12px}.main{grid-template-columns:1fr}.side{max-height:none}.charts{grid-template-columns:1fr}.chead{padding:22px 16px!important}footer{margin:0 14px}.page-wrap{padding-left:18px!important;padding-right:18px!important}}
 
+/* --- Modern ergonomic buttons/controls --- */
+.ctrl-group{gap:5px!important;}
+.ctrl-btn{border-radius:20px!important;border:1px solid #d8e0e8!important;transition:all .15s ease;}
+.ctrl-btn:first-child,.ctrl-btn:last-child{border-radius:20px!important;}
+.ctrl-btn.active{box-shadow:0 2px 8px rgba(11,83,148,.28);}
+.ctrl-btn:not(.active):not(:disabled):hover{border-color:#0b5394!important;color:#0b5394!important;}
+.ctrl-sep{align-self:center!important;height:20px!important;}
+.btn-primary,.btn-secondary{border-radius:24px!important;transition:transform .15s ease,box-shadow .15s ease,background .15s ease,color .15s ease;}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(11,83,148,.28);}
+.btn-secondary:hover{transform:translateY(-1px);}
+.back{border-radius:20px!important;transition:all .15s ease;}
+.back:hover{transform:translateY(-1px);}
+.nav-cta{transition:all .15s ease;}
+.nav-cta:hover{background:#0b5394!important;color:#fff!important;transform:translateY(-1px);}
+.filter-input{border-radius:20px!important;transition:border-color .15s ease;}
+.chead-gdp{border-radius:20px!important;}
+.bio-link{transition:all .15s ease;}
+.bio-link:hover{transform:translateY(-1px);}
+
 </style>
 </head>
 <body>
 
 <nav>
-  <div class="nav-logo"><svg width="28" height="22" viewBox="0 0 28 22" style="display:inline-block;vertical-align:middle;margin-right:8px"><circle cx="8" cy="11" r="7.5" fill="none" stroke="#d63b2f" stroke-width="1.5"/><circle cx="20" cy="11" r="7.5" fill="none" stroke="#1a56db" stroke-width="1.5"/></svg>Trade Dependency<span>.</span>Atlas</div>
+  <div class="nav-logo"><svg width="24" height="24" viewBox="0 0 24 24" style="display:inline-block;vertical-align:middle;margin-right:9px"><circle cx="9" cy="12" r="7" fill="#d63b2f" style="mix-blend-mode:multiply"/><circle cx="15" cy="12" r="7" fill="#1a56db" style="mix-blend-mode:multiply"/></svg>Trade Dependency Atlas</div>
   <div class="nav-links">
     <a href="index.html" class="nav-link">Atlas</a>
     <a href="methodology.html" class="nav-link">Methodology</a>
@@ -145,10 +176,16 @@ footer{max-width:1150px;margin:0 auto;padding:22px 0;border-top:1px solid #e6ebf
 <div class="chead">
   <a href="index.html" class="back">← Atlas</a>
   <span class="chead-name" id="h-name">—</span><span class="chead-iso" id="h-iso">—</span>
-  <span class="chead-gdp">Avg. GDP 2015–19: <span id="h-gdp">—</span> Bn€</span>
+  <span class="chead-gdp" id="h-gdp-label">Avg. GDP 2015–19: <span id="h-gdp">—</span> Bn€</span>
 </div>
 
 <div class="controls">
+  <span class="ctrl-label">Period</span>
+  <div class="ctrl-group period" id="period-grp">
+    <button class="ctrl-btn active" onclick="setPeriod('pre')">2015–19</button>
+    <button class="ctrl-btn" onclick="setPeriod('post')">2021–24</button>
+  </div>
+  <div class="ctrl-sep"></div>
   <span class="ctrl-label">Direction</span>
   <div class="ctrl-group" id="dir-grp">
     <button class="ctrl-btn active" onclick="setDir('import')">↓ Import dep.</button>
@@ -162,6 +199,8 @@ footer{max-width:1150px;margin:0 auto;padding:22px 0;border-top:1px solid #e6ebf
     <button class="ctrl-btn" onclick="setList('stick')">+ Stickiness</button>
   </div>
 </div>
+
+<div id="ctrl-notice"></div>
 
 <div class="kpi-bar" id="kpi-bar"></div>
 
@@ -182,58 +221,120 @@ footer{max-width:1150px;margin:0 auto;padding:22px 0;border-top:1px solid #e6ebf
       <span class="prod-count" id="prod-count"></span>
     </div>
   </div>
-  <div id="prod-table"></div>
+  <div class="prod-table-wrap" id="prod-table"></div>
+  <div style="margin-top:.6rem;font-family:var(--mono);font-size:.65rem;color:var(--text3);">
+    Need the complete list for this economy? Contact <a href="mailto:pierre.rousseaux@ensae.fr?subject=Request%20-%20Trade%20Dependency%20Atlas" style="color:var(--accent)">pierre.rousseaux@ensae.fr</a>.
+  </div>
 </div>
 
 <footer>
   <span>© Pierre Rousseaux — <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · <a href="https://www.pierrerousseaux.com">pierrerousseaux.com</a></span>
-  <span>BACI CEPII HS17 V202601 · Pool 2015–2019 · EUR constant 2019</span>
+  <span id="foot-period">BACI CEPII HS17 V202601 · Pool 2015–2019 · EUR constant 2019</span>
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
 <script>
-const COUNTRY_NAMES={"AF":"Afghanistan","AL":"Albania","DZ":"Algeria","AD":"Andorra","AO":"Angola","AR":"Argentina","AM":"Armenia","AU":"Australia","AT":"Austria","AZ":"Azerbaijan","BE":"Belgium","BJ":"Benin","BO":"Bolivia","BA":"Bosnia","BR":"Brazil","BG":"Bulgaria","BF":"Burkina Faso","BI":"Burundi","KH":"Cambodia","CM":"Cameroon","CA":"Canada","CF":"Central African Republic","TD":"Chad","CL":"Chile","CN":"China","CO":"Colombia","CD":"DR Congo","CG":"Congo","HR":"Croatia","CU":"Cuba","CY":"Cyprus","CZ":"Czech Republic","DK":"Denmark","EG":"Egypt","EE":"Estonia","ET":"Ethiopia","FI":"Finland","FR":"France","GA":"Gabon","GM":"Gambia","GE":"Georgia","DE":"Germany","GH":"Ghana","GR":"Greece","GT":"Guatemala","GN":"Guinea","HU":"Hungary","IN":"India","ID":"Indonesia","IR":"Iran","IQ":"Iraq","IE":"Ireland","IL":"Israel","IT":"Italy","JP":"Japan","JO":"Jordan","KZ":"Kazakhstan","KE":"Kenya","KW":"Kuwait","LV":"Latvia","LB":"Lebanon","LY":"Libya","LT":"Lithuania","LU":"Luxembourg","MG":"Madagascar","MW":"Malawi","MY":"Malaysia","ML":"Mali","MT":"Malta","MR":"Mauritania","MX":"Mexico","MD":"Moldova","MN":"Mongolia","ME":"Montenegro","MA":"Morocco","MZ":"Mozambique","NA":"Namibia","NL":"Netherlands","NZ":"New Zealand","NE":"Niger","NG":"Nigeria","NO":"Norway","OM":"Oman","PK":"Pakistan","PL":"Poland","PT":"Portugal","QA":"Qatar","RO":"Romania","RU":"Russia","SA":"Saudi Arabia","SN":"Senegal","RS":"Serbia","SG":"Singapore","SK":"Slovakia","SI":"Slovenia","ZA":"South Africa","ES":"Spain","LK":"Sri Lanka","SE":"Sweden","CH":"Switzerland","TJ":"Tajikistan","TZ":"Tanzania","TH":"Thailand","TN":"Tunisia","TR":"Turkey","UA":"Ukraine","AE":"United Arab Emirates","GB":"United Kingdom","US":"United States","UY":"Uruguay","VN":"Vietnam","ZM":"Zambia","ZW":"Zimbabwe","MK":"North Macedonia","KR":"South Korea","CI":"Côte d'Ivoire","PS":"Palestine","EU":"European Union","NC":"New Caledonia","PF":"French Polynesia","PM":"Saint Pierre and Miquelon","BL":"Saint Barthélemy","RE":"Réunion","GP":"Guadeloupe","GF":"French Guiana","MQ":"Martinique","SS":"South Sudan","YE":"Yemen","SO":"Somalia","SY":"Syria","LY":"Libya","ER":"Eritrea","TM":"Turkmenistan","KG":"Kyrgyzstan","UZ":"Uzbekistan","TT":"Trinidad and Tobago","JM":"Jamaica","HT":"Haiti","DO":"Dominican Republic","PA":"Panama","CR":"Costa Rica","NI":"Nicaragua","HN":"Honduras","SV":"El Salvador","GT":"Guatemala","BO":"Bolivia","PY":"Paraguay","EC":"Ecuador","PE":"Peru","VE":"Venezuela","GY":"Guyana","SR":"Suriname","MU":"Mauritius","SC":"Seychelles","CV":"Cape Verde","KM":"Comoros","MV":"Maldives","BN":"Brunei","PH":"Philippines","MM":"Myanmar","LA":"Laos","KH":"Cambodia","NP":"Nepal","BD":"Bangladesh","LK":"Sri Lanka","AF":"Afghanistan","MN":"Mongolia","KZ":"Kazakhstan","UZ":"Uzbekistan","TJ":"Tajikistan","TM":"Turkmenistan","AZ":"Azerbaijan","GE":"Georgia","AM":"Armenia","BY":"Belarus","MD":"Moldova","UA":"Ukraine"};
-const iso2num={"AF":"4","AL":"8","DZ":"12","AD":"20","AO":"24","AR":"32","AM":"51","AU":"36","AT":"40","AZ":"31","BE":"56","BJ":"204","BO":"68","BA":"70","BR":"76","BG":"100","BF":"854","BI":"108","KH":"116","CM":"120","CA":"124","CF":"140","TD":"148","CL":"152","CN":"156","CO":"170","CD":"180","CG":"178","HR":"191","CU":"192","CY":"196","CZ":"203","DK":"208","EG":"818","EE":"233","ET":"231","FI":"246","FR":"250","GA":"266","GM":"270","GE":"268","DE":"276","GH":"288","GR":"300","GT":"320","GN":"324","HU":"348","IN":"356","ID":"360","IR":"364","IQ":"368","IE":"372","IL":"376","IT":"380","JP":"392","JO":"400","KZ":"398","KE":"404","KW":"414","LV":"428","LB":"422","LY":"434","LT":"440","LU":"442","MG":"450","MW":"454","MY":"458","ML":"466","MT":"470","MR":"478","MX":"484","MD":"498","MN":"496","ME":"499","MA":"504","MZ":"508","NA":"516","NL":"528","NZ":"554","NE":"562","NG":"566","NO":"578","OM":"512","PK":"586","PL":"616","PT":"620","QA":"634","RO":"642","RU":"643","SA":"682","SN":"686","RS":"688","SG":"702","SK":"703","SI":"705","ZA":"710","ES":"724","LK":"144","SE":"752","CH":"756","TJ":"762","TZ":"834","TH":"764","TN":"788","TR":"792","UA":"804","AE":"784","GB":"826","US":"840","UY":"858","VN":"704","ZM":"894","ZW":"716","MK":"807","KR":"410","CI":"384","PS":"275","SS":"728","YE":"887","SO":"706","SY":"760","ER":"232","TM":"795","KG":"417","UZ":"860","TT":"780","JM":"388","HT":"332","DO":"214","PA":"591","CR":"188","NI":"558","HN":"340","SV":"222","BO":"68","PY":"600","EC":"218","PE":"604","VE":"862","GY":"328","MU":"480","SC":"690","CV":"132","BN":"96","PH":"608","MM":"104","LA":"418","NP":"524","BD":"50","BY":"112"};
-const num2iso=Object.fromEntries(Object.entries(iso2num).map(([a,b])=>[b,a]));
+const COUNTRY_NAMES={"AD":"Andorra","AE":"United Arab Emirates","AF":"Afghanistan","AG":"Antigua and Barbuda","AI":"Anguilla","AL":"Albania","AM":"Armenia","AO":"Angola","AR":"Argentina","AS":"American Samoa","AT":"Austria","AU":"Australia","AW":"Aruba","AZ":"Azerbaijan","BA":"Bosnia and Herzegovina","BB":"Barbados","BD":"Bangladesh","BE":"Belgium","BF":"Burkina Faso","BG":"Bulgaria","BH":"Bahrain","BI":"Burundi","BJ":"Benin","BL":"Saint Barthélemy","BM":"Bermuda","BN":"Brunei","BO":"Bolivia","BQ":"Bonaire, Sint Eustatius and Saba","BR":"Brazil","BS":"Bahamas","BT":"Bhutan","BW":"Botswana","BY":"Belarus","BZ":"Belize","CA":"Canada","CC":"Cocos (Keeling) Islands","CD":"DR Congo","CF":"Central African Republic","CG":"Congo","CH":"Switzerland","CI":"Côte d'Ivoire","CK":"Cook Islands","CL":"Chile","CM":"Cameroon","CN":"China","CO":"Colombia","CR":"Costa Rica","CU":"Cuba","CV":"Cape Verde","CW":"Curaçao","CX":"Christmas Island","CY":"Cyprus","CZ":"Czech Republic","DE":"Germany","DJ":"Djibouti","DK":"Denmark","DM":"Dominica","DO":"Dominican Republic","DZ":"Algeria","EC":"Ecuador","EE":"Estonia","EG":"Egypt","ER":"Eritrea","ES":"Spain","ET":"Ethiopia","FI":"Finland","FJ":"Fiji","FK":"Falkland Islands (Malvinas)","FM":"Micronesia","FR":"France","GA":"Gabon","GB":"United Kingdom","GD":"Grenada","GE":"Georgia","GH":"Ghana","GI":"Gibraltar","GL":"Greenland","GM":"Gambia","GN":"Guinea","GQ":"Equatorial Guinea","GR":"Greece","GT":"Guatemala","GU":"Guam","GW":"Guinea-Bissau","GY":"Guyana","HK":"Hong Kong","HN":"Honduras","HR":"Croatia","HT":"Haiti","HU":"Hungary","ID":"Indonesia","IE":"Ireland","IL":"Israel","IN":"India","IO":"British Indian Ocean Territory","IQ":"Iraq","IR":"Iran","IS":"Iceland","IT":"Italy","JM":"Jamaica","JO":"Jordan","JP":"Japan","KE":"Kenya","KG":"Kyrgyzstan","KH":"Cambodia","KI":"Kiribati","KM":"Comoros","KN":"Saint Kitts and Nevis","KP":"North Korea","KR":"South Korea","KW":"Kuwait","KY":"Cayman Islands","KZ":"Kazakhstan","LA":"Laos","LB":"Lebanon","LC":"Saint Lucia","LK":"Sri Lanka","LR":"Liberia","LS":"Lesotho","LT":"Lithuania","LU":"Luxembourg","LV":"Latvia","LY":"Libya","MA":"Morocco","MD":"Moldova","ME":"Montenegro","MG":"Madagascar","MH":"Marshall Islands","MK":"North Macedonia","ML":"Mali","MM":"Myanmar","MN":"Mongolia","MO":"Macao","MP":"Northern Mariana Islands","MR":"Mauritania","MS":"Montserrat","MT":"Malta","MU":"Mauritius","MV":"Maldives","MW":"Malawi","MX":"Mexico","MY":"Malaysia","MZ":"Mozambique","NC":"New Caledonia","NE":"Niger","NF":"Norfolk Island","NG":"Nigeria","NI":"Nicaragua","NL":"Netherlands","NO":"Norway","NP":"Nepal","NR":"Nauru","NU":"Niue","NZ":"New Zealand","OM":"Oman","PA":"Panama","PE":"Peru","PF":"French Polynesia","PG":"Papua New Guinea","PH":"Philippines","PK":"Pakistan","PL":"Poland","PM":"Saint Pierre and Miquelon","PN":"Pitcairn","PS":"Palestine","PT":"Portugal","PW":"Palau","PY":"Paraguay","QA":"Qatar","RO":"Romania","RS":"Serbia","RU":"Russia","RW":"Rwanda","SA":"Saudi Arabia","SB":"Solomon Islands","SC":"Seychelles","SD":"Sudan","SE":"Sweden","SG":"Singapore","SH":"Saint Helena, Ascension and Tristan da Cunha","SI":"Slovenia","SK":"Slovakia","SL":"Sierra Leone","SM":"San Marino","SN":"Senegal","SO":"Somalia","SR":"Suriname","SS":"South Sudan","ST":"Sao Tome and Principe","SV":"El Salvador","SX":"Sint Maarten (Dutch part)","SY":"Syria","SZ":"Eswatini","TC":"Turks and Caicos Islands","TD":"Chad","TF":"French Southern Territories","TG":"Togo","TH":"Thailand","TJ":"Tajikistan","TK":"Tokelau","TL":"Timor-Leste","TM":"Turkmenistan","TN":"Tunisia","TO":"Tonga","TR":"Turkey","TT":"Trinidad and Tobago","TV":"Tuvalu","TZ":"Tanzania","UA":"Ukraine","UG":"Uganda","US":"United States","UY":"Uruguay","UZ":"Uzbekistan","VC":"Saint Vincent and the Grenadines","VE":"Venezuela","VG":"Virgin Islands, British","VN":"Vietnam","VU":"Vanuatu","WF":"Wallis and Futuna","WS":"Samoa","YE":"Yemen","YT":"Mayotte","ZA":"South Africa","ZM":"Zambia","ZW":"Zimbabwe"};
+const iso2num={"AD":"20","AE":"784","AF":"4","AG":"28","AI":"660","AL":"8","AM":"51","AO":"24","AR":"32","AS":"16","AT":"40","AU":"36","AW":"533","AZ":"31","BA":"70","BB":"52","BD":"50","BE":"56","BF":"854","BG":"100","BH":"48","BI":"108","BJ":"204","BL":"652","BM":"60","BN":"96","BO":"68","BQ":"535","BR":"76","BS":"44","BT":"64","BW":"72","BY":"112","BZ":"84","CA":"124","CC":"166","CD":"180","CF":"140","CG":"178","CH":"756","CI":"384","CK":"184","CL":"152","CM":"120","CN":"156","CO":"170","CR":"188","CU":"192","CV":"132","CW":"531","CX":"162","CY":"196","CZ":"203","DE":"276","DJ":"262","DK":"208","DM":"212","DO":"214","DZ":"12","EC":"218","EE":"233","EG":"818","ER":"232","ES":"724","ET":"231","FI":"246","FJ":"242","FK":"238","FM":"583","FR":"250","GA":"266","GB":"826","GD":"308","GE":"268","GH":"288","GI":"292","GL":"304","GM":"270","GN":"324","GQ":"226","GR":"300","GT":"320","GU":"316","GW":"624","GY":"328","HK":"344","HN":"340","HR":"191","HT":"332","HU":"348","ID":"360","IE":"372","IL":"376","IN":"356","IO":"86","IQ":"368","IR":"364","IS":"352","IT":"380","JM":"388","JO":"400","JP":"392","KE":"404","KG":"417","KH":"116","KI":"296","KM":"174","KN":"659","KP":"408","KR":"410","KW":"414","KY":"136","KZ":"398","LA":"418","LB":"422","LC":"662","LK":"144","LR":"430","LS":"426","LT":"440","LU":"442","LV":"428","LY":"434","MA":"504","MD":"498","ME":"499","MG":"450","MH":"584","MK":"807","ML":"466","MM":"104","MN":"496","MO":"446","MP":"580","MR":"478","MS":"500","MT":"470","MU":"480","MV":"462","MW":"454","MX":"484","MY":"458","MZ":"508","NC":"540","NE":"562","NF":"574","NG":"566","NI":"558","NL":"528","NO":"578","NP":"524","NR":"520","NU":"570","NZ":"554","OM":"512","PA":"591","PE":"604","PF":"258","PG":"598","PH":"608","PK":"586","PL":"616","PM":"666","PN":"612","PS":"275","PT":"620","PW":"585","PY":"600","QA":"634","RO":"642","RS":"688","RU":"643","RW":"646","SA":"682","SB":"90","SC":"690","SD":"729","SE":"752","SG":"702","SH":"654","SI":"705","SK":"703","SL":"694","SM":"674","SN":"686","SO":"706","SR":"740","SS":"728","ST":"678","SV":"222","SX":"534","SY":"760","SZ":"748","TC":"796","TD":"148","TF":"260","TG":"768","TH":"764","TJ":"762","TK":"772","TL":"626","TM":"795","TN":"788","TO":"776","TR":"792","TT":"780","TV":"798","TZ":"834","UA":"804","UG":"800","US":"840","UY":"858","UZ":"860","VC":"670","VE":"862","VG":"92","VN":"704","VU":"548","WF":"876","WS":"882","YE":"887","YT":"175","ZA":"710","ZM":"894","ZW":"716"};
+const num2iso={};Object.entries(iso2num).forEach(([a,b])=>{num2iso[b]=a;num2iso[String(Number(b))]=a;num2iso[b.padStart(3,'0')]=a;});
 const cn=iso=>(COUNTRY_NAMES[iso]||iso);
 
 const params=new URLSearchParams(window.location.search);
 const ISO=params.get('iso')||'FR';
-const PERIOD='pre';
+let period=params.get('period')||'pre';
 let dir=params.get('dir')||'import';
 let list=params.get('list')||'ec';
+const EU27_GB=["AT","BE","BG","CY","CZ","DE","DK","EE","ES","FI","FR","GR","HR","HU","IE","IT","LT","LU","LV","MT","NL","PL","PT","RO","SE","SI","SK","GB"];
+const hasProdcom=EU27_GB.includes(ISO);
+if(list==='abs'&&!hasProdcom) list='ec';
 let impData=null,expData=null,impProds=[],expProds=[];
-let summary={},feats=null,svgEl=null;
+let summaryPre={},summaryPost={},summary={};
+let feats=null,svgEl=null;
 let sortCol=null,sortDir=1;
 let filteredRows=[];
+let annualData=null;
+const TABLE_LIMIT=20;
 
+document.querySelectorAll('#period-grp .ctrl-btn').forEach((b,i)=>b.classList.toggle('active',i===(period==='pre'?0:1)));
 document.querySelectorAll('#dir-grp .ctrl-btn').forEach((b,i)=>b.classList.toggle('active',i===(dir==='import'?0:1)));
 document.querySelectorAll('#list-grp .ctrl-btn').forEach((b,i)=>b.classList.toggle('active',['ec','abs','stick'][i]===list));
 
-let annualData = null;
+updateListEnabled();
+loadAll();
 
-Promise.all([
-  fetch(`data/import/${ISO}_${PERIOD}.json`).then(r=>r.json()).catch(()=>null),
-  fetch(`data/export/${ISO}_${PERIOD}.json`).then(r=>r.json()).catch(()=>null),
-  fetch(`data/import/${ISO}_${PERIOD}_products.json`).then(r=>r.json()).catch(()=>[]),
-  fetch(`data/export/${ISO}_${PERIOD}_products.json`).then(r=>r.json()).catch(()=>[]),
-  fetch('data/indicators/summary.json').then(r=>r.json()).catch(()=>[]),
-  d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json'),
-  fetch(`data/import/${ISO}_annual.json`).then(r=>r.json()).catch(()=>null)
-]).then(([imp,exp,ip,ep,sum,topo,annual])=>{
-  impData=imp;expData=exp;impProds=ip||[];expProds=ep||[];annualData=annual;
-  sum.forEach(d=>{summary[d.country]=d;});
-  const info=summary[ISO]||{};
-  document.getElementById('h-name').textContent=cn(ISO);
-  document.getElementById('h-iso').textContent=ISO;
-  document.getElementById('h-gdp').textContent=info.gdp_eur_bn!=null?Math.round(info.gdp_eur_bn).toLocaleString('en'):'—';
-  feats=topojson.feature(topo,topo.objects.countries).features;
-  render();
-});
+function periodLabel(p){return p==='pre'?'2015–2019':'2021–2024';}
+function periodSuffix(){return period;}
 
-function setDir(d){dir=d;document.querySelectorAll('#dir-grp .ctrl-btn').forEach((b,i)=>b.classList.toggle('active',i===(d==='import'?0:1)));render();}
-function setList(l){list=l;document.querySelectorAll('#list-grp .ctrl-btn').forEach((b,i)=>b.classList.toggle('active',['ec','abs','stick'][i]===l));render();}
+function loadAll(){
+  Promise.all([
+    fetch(`data/import/${ISO}_${period}.json`).then(r=>r.ok?r.json():null).catch(()=>null),
+    fetch(`data/export/${ISO}_${period}.json`).then(r=>r.ok?r.json():null).catch(()=>null),
+    fetch(`data/import/${ISO}_${period}_products.json`).then(r=>r.ok?r.json():[]).catch(()=>[]),
+    fetch(`data/export/${ISO}_${period}_products.json`).then(r=>r.ok?r.json():[]).catch(()=>[]),
+    fetch('data/indicators/summary.json').then(r=>r.json()).catch(()=>[]),
+    fetch('data/indicators/summary_post.json').then(r=>r.json()).catch(()=>[]),
+    d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json'),
+    fetch(`data/import/${ISO}_annual.json`).then(r=>r.ok?r.json():null).catch(()=>null)
+  ]).then(([imp,exp,ip,ep,sumPre,sumPost,topo,annual])=>{
+    impData=imp;expData=exp;impProds=ip||[];expProds=ep||[];annualData=annual;
+    sumPre.forEach(d=>{summaryPre[d.country]=d;});
+    sumPost.forEach(d=>{summaryPost[d.country]=d;});
+    summary=(period==='pre')?summaryPre:summaryPost;
+    const info=summary[ISO]||{};
+    document.getElementById('h-name').textContent=cn(ISO);
+    document.getElementById('h-iso').textContent=ISO;
+    document.getElementById('h-gdp-label').innerHTML=`Avg. GDP ${periodLabel(period)}: <span id="h-gdp">${info.gdp_eur_bn!=null?Math.round(info.gdp_eur_bn).toLocaleString('en'):'—'}</span> Bn€`;
+    document.getElementById('foot-period').textContent=`BACI CEPII HS17 V202601 · Pool ${periodLabel(period)} · EUR constant 2019`;
+    feats=topojson.feature(topo,topo.objects.countries).features;
+    render();
+  });
+}
+
+function setPeriod(p){
+  if(p===period)return;
+  period=p;
+  document.querySelectorAll('#period-grp .ctrl-btn').forEach((b,i)=>b.classList.toggle('active',i===(p==='pre'?0:1)));
+  // Re-fetch country-specific (period-suffixed) files; summary tables already cached.
+  Promise.all([
+    fetch(`data/import/${ISO}_${period}.json`).then(r=>r.ok?r.json():null).catch(()=>null),
+    fetch(`data/export/${ISO}_${period}.json`).then(r=>r.ok?r.json():null).catch(()=>null),
+    fetch(`data/import/${ISO}_${period}_products.json`).then(r=>r.ok?r.json():[]).catch(()=>[]),
+    fetch(`data/export/${ISO}_${period}_products.json`).then(r=>r.ok?r.json():[]).catch(()=>[])
+  ]).then(([imp,exp,ip,ep])=>{
+    impData=imp;expData=exp;impProds=ip||[];expProds=ep||[];
+    summary=(period==='pre')?summaryPre:summaryPost;
+    const info=summary[ISO]||{};
+    document.getElementById('h-gdp-label').innerHTML=`Avg. GDP ${periodLabel(period)}: <span id="h-gdp">${info.gdp_eur_bn!=null?Math.round(info.gdp_eur_bn).toLocaleString('en'):'—'}</span> Bn€`;
+    document.getElementById('foot-period').textContent=`BACI CEPII HS17 V202601 · Pool ${periodLabel(period)} · EUR constant 2019`;
+    render();
+  });
+}
+
+function setDir(d){dir=d;document.querySelectorAll('#dir-grp .ctrl-btn').forEach((b,i)=>b.classList.toggle('active',i===(d==='import'?0:1)));updateListEnabled();render();}
+function setList(l){if(dir==='export'||(l==='abs'&&!hasProdcom))return;list=l;document.querySelectorAll('#list-grp .ctrl-btn').forEach((b,i)=>b.classList.toggle('active',['ec','abs','stick'][i]===l));render();}
+function updateListEnabled(){
+  const listApplies=(dir==='import');
+  document.querySelectorAll('#list-grp .ctrl-btn').forEach((b,i)=>{
+    const key=['ec','abs','stick'][i];
+    const absBlocked=key==='abs'&&!hasProdcom;
+    const disabled=!listApplies||absBlocked;
+    b.disabled=disabled;
+    b.classList.toggle('ctrl-btn-disabled',disabled);
+    b.title=!listApplies?'List filters apply to Import dependencies only.':absBlocked?`No production (Prodcom) data available for ${cn(ISO)} — the absorption criterion is limited to EU27 + UK.`:'';
+  });
+  const notice=document.getElementById('ctrl-notice');
+  if(!notice)return;
+  if(!listApplies){
+    notice.style.display='block';
+    notice.textContent="List filters (EC / +Absorption / +Stickiness) only apply when viewing Import dependencies.";
+  } else if(!hasProdcom){
+    notice.style.display='block';
+    notice.textContent=`No production (Prodcom) data available for ${cn(ISO)} — the +Absorption criterion is limited to EU27 + UK. Stickiness below is computed directly on EC-level products for this country.`;
+  } else {
+    notice.style.display='none';
+  }
+}
 function render(){renderKPIs();renderMap();renderSide();renderCharts();renderProducts();}
 
 /* KPIs */
@@ -242,12 +343,10 @@ function renderKPIs(){
   const info=summary[ISO]||{};
   const fmt=(v,pct)=>v!=null&&!isNaN(v)&&isFinite(v)?(pct?(v*100).toFixed(1)+'%':v.toFixed(2)):'—';
   if(dir==='import'){
-    // Filtrer les produits selon la liste active
     const filtered = list==='ec' ? impProds
                    : list==='abs' ? impProds.filter(p=>p.absorption===1)
                    : impProds.filter(p=>p.mr===1);
     const n = filtered.length;
-    // VI et imports critiques recalculés sur le sous-ensemble
     const imp_val = filtered.reduce((s,p)=>s+(p.extra_import_value||0), 0);
     const imp_val_up = filtered.reduce((s,p)=>s+((p.extra_import_value||0)*(p.upstreamness||1)), 0);
     const gdp = info.gdp_eur_bn;
@@ -262,41 +361,54 @@ function renderKPIs(){
       <div class="kpi"><div class="kpi-l">DBS</div><div class="kpi-v" style="color:${dbsColor}">${fmt(info.dbs,false)}</div></div>`;
   } else {
     const prod_filtered=expProds;
-    const fmt_=(v,pct)=>v!=null&&!isNaN(v)&&isFinite(v)?(pct?(v*100).toFixed(1)+'%':v.toFixed(2)):'—';
     el.innerHTML=`
       <div class="kpi"><div class="kpi-l">Reverse dep. products</div><div class="kpi-v green">${info.n_prod_exp??'—'}</div></div>
       <div class="kpi"><div class="kpi-l">Exposed countries</div><div class="kpi-v blue">${info.n_cty_exp??'—'}</div></div>
-      <div class="kpi"><div class="kpi-l">LI / GDP</div><div class="kpi-v green">${fmt_(info.li_index,true)}</div></div>
+      <div class="kpi"><div class="kpi-l">LI / GDP</div><div class="kpi-v green">${fmt(info.li_index,true)}</div></div>
       <div class="kpi"><div class="kpi-l">Critical exports (M€)</div><div class="kpi-v">${Math.round(prod_filtered.reduce((s,p)=>s+(p.total_exports||0),0)/1000).toLocaleString('en')}</div></div>
-      <div class="kpi"><div class="kpi-l">DBS</div><div class="kpi-v" style="color:${info.dbs==null?'inherit':info.dbs<.85?'var(--blue)':info.dbs>1.15?'var(--red)':'inherit'}">${fmt_(info.dbs,false)}</div></div>`;
+      <div class="kpi"><div class="kpi-l">DBS</div><div class="kpi-v" style="color:${info.dbs==null?'inherit':info.dbs<.85?'var(--blue)':info.dbs>1.15?'var(--red)':'inherit'}">${fmt(info.dbs,false)}</div></div>`;
   }
 }
 
 /* Map */
+function computeFit(W){
+  const proj=d3.geoNaturalEarth1();
+  const sphere={type:'Sphere'};
+  proj.fitWidth(W,sphere);
+  const path=d3.geoPath(proj);
+  const b=path.bounds(sphere);
+  const H=Math.ceil(b[1][1]-b[0][1]);
+  proj.translate([proj.translate()[0],proj.translate()[1]-b[0][1]]);
+  return {proj,H};
+}
 function renderMap(){
   const wrap=document.getElementById('map-wrap');
   wrap.querySelectorAll('svg').forEach(s=>s.remove());
-  const W=wrap.clientWidth||700,H=Math.round(W*.5);
+  const W=wrap.clientWidth||700;
+  const {proj,H}=computeFit(W);
   wrap.style.height=H+'px';
-  const proj=d3.geoNaturalEarth1().scale(W/6.3).translate([W/2,H/2]);
+  // Keep the side panel's box the same height as the map so the two columns
+  // line up instead of leaving a blank gap under the shorter one.
+  const side=document.getElementById('side');
+  if(window.innerWidth>880){ side.style.maxHeight=H+'px'; }
+  else{ side.style.maxHeight='none'; }
   const path=d3.geoPath(proj);
   svgEl=d3.select('#map-wrap').append('svg').attr('viewBox',`0 0 ${W} ${H}`).attr('width','100%').style('display','block');
-  svgEl.append('rect').attr('width',W).attr('height',H).attr('fill','#f0f2f0');
-  svgEl.append('path').datum(d3.geoGraticule()()).attr('d',path).attr('fill','none').attr('stroke','rgba(0,0,0,.04)').attr('stroke-width',.3);
+  svgEl.append('path').datum(d3.geoGraticule()()).attr('d',path).attr('fill','none').attr('stroke','rgba(0,0,0,.045)').attr('stroke-width',.3);
   if(!feats)return;
   let lookup={};
   if(dir==='import'&&impData?.by_source) impData.by_source.forEach(d=>{lookup[d.top_exporter]=d;});
   else if(dir==='export'&&expData?.by_importer) expData.by_importer.forEach(d=>{lookup[d.importer]=d;});
   const maxN=d3.max(Object.values(lookup),d=>d.n_products||0)||1;
   const cScale=dir==='import'
-    ?d3.scaleSequentialLog([1,maxN],d3.interpolateRgb('#f5ebe8','#d63b2f')).clamp(true)
-    :d3.scaleSequentialLog([1,maxN],d3.interpolateRgb('#e8f5ef','#1a8a4a')).clamp(true);
+    ?d3.scaleSequentialLog([1,maxN],d3.interpolateRgb('#fbe4de','#b0180a')).clamp(true)
+    :d3.scaleSequentialLog([1,maxN],d3.interpolateRgb('#e0f5e8','#0e6b3c')).clamp(true);
   const tt=document.getElementById('tooltip');
   svgEl.selectAll('path.c').data(feats).join('path').attr('class','c')
     .attr('d',path)
-    .attr('fill',d=>{const iso=num2iso[String(d.id)];if(iso===ISO)return'#eaf0fd';const dat=lookup[iso];return dat?cScale(dat.n_products||1):'#e8e8e4';})
-    .attr('stroke',d=>num2iso[String(d.id)]===ISO?'#1a56db':'rgba(255,255,255,.6)')
-    .attr('stroke-width',d=>num2iso[String(d.id)]===ISO?.7:.3)
+    .attr('fill',d=>{const iso=num2iso[String(d.id)];if(iso===ISO)return'#dbe6fc';const dat=lookup[iso];return dat?cScale(dat.n_products||1):'#e3e3de';})
+    .attr('stroke',d=>num2iso[String(d.id)]===ISO?'#1a56db':'rgba(255,255,255,.65)')
+    .attr('stroke-width',d=>num2iso[String(d.id)]===ISO?1:.35)
     .on('mousemove',function(event,d){
       const iso=num2iso[String(d.id)];const dat=lookup[iso];if(!dat){tt.style.display='none';return;}
       const rect=wrap.getBoundingClientRect();
@@ -312,6 +424,11 @@ function renderMap(){
         <div class="tt-row"><span>LI / GDP</span><span class="tt-v">${dat.li_index!=null?(dat.li_index*100).toFixed(1)+'%':'—'}</span></div>`;
       tt.style.display='block';tt.style.left=x+'px';tt.style.top=y+'px';
     }).on('mouseleave',()=>{tt.style.display='none';});
+  if(!Object.keys(lookup).length){
+    svgEl.append('text').attr('x',W/2).attr('y',H/2).attr('text-anchor','middle')
+      .style('font-family','var(--mono)').style('font-size','11px').attr('fill','var(--text3)')
+      .text(`No ${dir==='import'?'supplier':'exposure'} data available for ${periodLabel(period)}`);
+  }
 }
 
 /* Side */
@@ -319,18 +436,17 @@ function renderSide(){
   const el=document.getElementById('side');el.innerHTML='';
   const info=summary[ISO]||{};
 
-  // Funnel
   if(dir==='import'){
     const max=info.n_ec||1;
     const rows=[
-      ['EC (3 criteria)',    info.n_ec||0,    '#1a1a18', max, 'ec'],
-      ['+ Absorption',       info.n_abs||0,   '#6b6b65', max, 'abs'],
-      ['+ Stickiness q75',   info.n_stick||0, '#a8a8a0', max, 'stick'],
+      ['EC (3 criteria)',    info.n_ec||0,    '#1a1a18', max, 'ec',    true],
+      ['+ Absorption',       info.n_abs||0,   '#6b6b65', max, 'abs',   hasProdcom],
+      ['+ Stickiness q75',   info.n_stick||0, '#a8a8a0', max, 'stick', true],
     ];
     const s=document.createElement('div');s.className='side-sec';
-    s.innerHTML=`<div class="side-title">Product lists funnel</div>`+rows.map(([l,v,c,m,key])=>`
-      <div class="bar-row" style="cursor:pointer;${list===key?'outline:1px solid var(--accent);border-radius:2px;':''}"
-           onclick="setList('${key}')">
+    s.innerHTML=`<div class="side-title">Product lists funnel</div>`+rows.map(([l,v,c,m,key,enabled])=>`
+      <div class="bar-row" style="cursor:${enabled?'pointer':'not-allowed'};opacity:${enabled?1:.4};${list===key?'outline:1px solid var(--accent);border-radius:2px;':''}"
+           ${enabled?`onclick="setList('${key}')"`:''} title="${enabled?'':'No production (Prodcom) data available for '+cn(ISO)+' — limited to EU27 + UK.'}">
         <div class="bar-label" style="${list===key?'color:var(--accent);font-weight:500':''}">${l}</div>
         <div class="bar-track"><div class="bar-fill" style="width:${m>0?v/m*100:0}%;background:${list===key?'var(--accent)':c}"></div></div>
         <div class="bar-num">${v}</div>
@@ -338,56 +454,55 @@ function renderSide(){
     el.appendChild(s);
   }
 
-  // Sectoral distribution — calculé depuis les produits filtrés selon la liste active
   if(dir==='import' && impProds.length){
     const filtered = list==='ec' ? impProds
                    : list==='abs' ? impProds.filter(p=>p.absorption===1)
                    : impProds.filter(p=>p.mr===1);
-    // Grouper par HS2
     const bySector={};
     filtered.forEach(p=>{
       const hs2=p.code?p.code.substring(0,2):'??';
       if(!bySector[hs2]) bySector[hs2]={hs2,n:0,label:''};
       bySector[hs2].n++;
     });
-    // Récupérer les labels depuis impData.by_sector
     (impData?.by_sector||[]).forEach(s=>{
       if(bySector[s.hs2]) bySector[s.hs2].label=s.sector_label||s.hs2;
     });
     const sectors=Object.values(bySector).sort((a,b)=>b.n-a.n).slice(0,12);
     const maxSec=Math.max(...sectors.map(s=>s.n),1);
     const listLabel=list==='ec'?'EC':list==='abs'?'EC+Abs':'EC+Abs+Stick';
+    const s=document.createElement('div');s.className='side-sec';
     if(sectors.length){
-      const s=document.createElement('div');s.className='side-sec';
       s.innerHTML=`<div class="side-title">Sectoral distribution — ${listLabel}</div>`+
         sectors.map(sec=>`<div class="bar-row">
           <div class="bar-label" title="${sec.label||sec.hs2}">${sec.label||sec.hs2}</div>
           <div class="bar-track"><div class="bar-fill" style="width:${sec.n/maxSec*100}%;background:var(--accent);opacity:.65"></div></div>
           <div class="bar-num">${sec.n}</div>
         </div>`).join('');
-      el.appendChild(s);
+    } else {
+      s.innerHTML=`<div class="side-title">Sectoral distribution — ${listLabel}</div><div class="side-empty">No products in this list for ${periodLabel(period)}.</div>`;
     }
-  } else if(dir==='export' && expData?.by_sector){
-    const sectors=(expData.by_sector||[]).slice(0,12);
+    el.appendChild(s);
+  } else if(dir==='export'){
+    const sectors=(expData?.by_sector||[]).slice(0,12);
     const maxSec=Math.max(...sectors.map(s=>s.n_pairs),1);
+    const s=document.createElement('div');s.className='side-sec';
     if(sectors.length){
-      const s=document.createElement('div');s.className='side-sec';
       s.innerHTML=`<div class="side-title">Sectoral distribution (export leverage)</div>`+
         sectors.map(sec=>`<div class="bar-row">
           <div class="bar-label" title="${sec.sector_label||sec.hs2}">${sec.sector_label||sec.hs2}</div>
           <div class="bar-track"><div class="bar-fill" style="width:${sec.n_pairs/maxSec*100}%;background:var(--green);opacity:.65"></div></div>
           <div class="bar-num">${sec.n_pairs}</div>
         </div>`).join('');
-      el.appendChild(s);
+    } else {
+      s.innerHTML=`<div class="side-title">Sectoral distribution (export leverage)</div><div class="side-empty">No reverse-dependency products for ${periodLabel(period)}.</div>`;
     }
+    el.appendChild(s);
   }
 
-  // Top suppliers — filtrés selon la liste active
   if(dir==='import' && impProds.length){
     const filtered = list==='ec' ? impProds
                    : list==='abs' ? impProds.filter(p=>p.absorption===1)
                    : impProds.filter(p=>p.mr===1);
-    // Grouper par top_exporter
     const bySupplier={};
     filtered.forEach(p=>{
       const s=p.top_exporter||'?';
@@ -397,26 +512,32 @@ function renderSide(){
     const top=Object.values(bySupplier).sort((a,b)=>b.n-a.n).slice(0,10);
     const maxP=Math.max(...top.map(d=>d.n),1);
     const listLabel=list==='ec'?'EC':list==='abs'?'EC+Abs':'EC+Abs+Stick';
+    const s=document.createElement('div');s.className='side-sec';
     if(top.length){
-      const s=document.createElement('div');s.className='side-sec';
       s.innerHTML=`<div class="side-title">Top critical suppliers — ${listLabel}</div>`+
         top.map(d=>`<div class="bar-row">
           <div class="bar-label">${cn(d.iso)} (${d.iso})</div>
           <div class="bar-track"><div class="bar-fill" style="width:${d.n/maxP*100}%;background:var(--red)"></div></div>
           <div class="bar-num">${d.n}</div>
         </div>`).join('');
-      el.appendChild(s);
+    } else {
+      s.innerHTML=`<div class="side-title">Top critical suppliers — ${listLabel}</div><div class="side-empty">Not available for ${periodLabel(period)}.</div>`;
     }
-  } else if(dir==='export'&&expData?.by_importer){
-    const top=(expData.by_importer||[]).slice(0,10);
+    el.appendChild(s);
+  } else if(dir==='export'){
+    const top=(expData?.by_importer||[]).slice(0,10);
     const maxP=Math.max(...top.map(d=>d.n_products),1);
     const s=document.createElement('div');s.className='side-sec';
-    s.innerHTML=`<div class="side-title">Top exposed countries</div>`+
-      top.map(d=>`<div class="bar-row">
-        <div class="bar-label">${d.importer_name&&d.importer_name!==d.importer?d.importer_name+' ('+d.importer+')':cn(d.importer)+' ('+d.importer+')'}</div>
-        <div class="bar-track"><div class="bar-fill" style="width:${d.n_products/maxP*100}%;background:var(--green)"></div></div>
-        <div class="bar-num">${d.n_products}</div>
-      </div>`).join('');
+    if(top.length){
+      s.innerHTML=`<div class="side-title">Top exposed countries</div>`+
+        top.map(d=>`<div class="bar-row">
+          <div class="bar-label">${d.importer_name&&d.importer_name!==d.importer?d.importer_name+' ('+d.importer+')':cn(d.importer)+' ('+d.importer+')'}</div>
+          <div class="bar-track"><div class="bar-fill" style="width:${d.n_products/maxP*100}%;background:var(--green)"></div></div>
+          <div class="bar-num">${d.n_products}</div>
+        </div>`).join('');
+    } else {
+      s.innerHTML=`<div class="side-title">Top exposed countries</div><div class="side-empty">No reverse-dependency products for ${periodLabel(period)}.</div>`;
+    }
     el.appendChild(s);
   }
 }
@@ -428,8 +549,9 @@ function renderCharts(){
     if(annualData&&annualData.length) el.appendChild(buildAnnualChart());
     el.appendChild(buildUpstreamChart(impProds));
     el.appendChild(buildValueChart());
-  } else if(dir==='export'&&expProds.length){
-    el.appendChild(buildUpstreamChart(expProds));
+  } else if(dir==='export'){
+    if(expProds.length) el.appendChild(buildUpstreamChart(expProds));
+    else { const c=document.createElement('div');c.className='chart-card';c.innerHTML=`<div class="chart-title">Upstreamness density</div><div class="side-empty">No reverse-dependency products for ${periodLabel(period)}.</div>`;el.appendChild(c); }
   }
 }
 
@@ -437,34 +559,57 @@ function buildAnnualChart(){
   const card=document.createElement('div');
   card.className='chart-card';
   card.style.cssText='grid-column:1/-1';
+  // Some economies (e.g. UK/ONS) already have real Prodcom data for 2024; most
+  // EU27 economies (Eurostat) don't yet. Rather than hard-coding a cutoff year,
+  // trim only a *trailing* run of exact 0/0 (Absorption/Stickiness "not yet
+  // computed") from the end of the series, so a country with real 2024 data
+  // keeps its 2024 point, and one without it stops at its last real year.
+  function trimTrailingZeros(data){
+    let end=data.length;
+    while(end>0 && (data[end-1].n_abs||0)===0 && (data[end-1].n_stick||0)===0) end--;
+    return data.slice(0,end);
+  }
+  const dataEC   = annualData;
+  const dataAbs  = trimTrailingZeros(annualData);
+  const dataStick= trimTrailingZeros(annualData);
+  const lastAbsYear = dataAbs.length ? dataAbs[dataAbs.length-1].year : null;
+  const absUpToDate = lastAbsYear===2024;
+  const labelYears = lastAbsYear ? `2015–${lastAbsYear}` : '2015–2024';
+  const footnote = !hasProdcom
+    ? `Absorption requires Prodcom production data, available only for EU27 + UK. Stickiness is computed directly on EC-level products for ${cn(ISO)}.`
+    : (!lastAbsYear
+        ? 'No Absorption/Stickiness data computed yet for this economy.'
+        : absUpToDate
+          ? 'Absorption and stickiness are up to date through 2024 for this economy.'
+          : `Absorption and stickiness require Prodcom production data — up to date through ${lastAbsYear} for this economy; 2024 Prodcom data is not yet released for it.`);
   card.innerHTML=`<div class="chart-title">Annual evolution of critical import products (2015–2024)</div>
     <svg id="ac" width="100%" height="300"></svg>
     <div style="display:flex;gap:1rem;margin-top:.5rem;flex-wrap:wrap;align-items:center;" id="ac-legend"></div>
     <div style="font-family:var(--mono);font-size:.6rem;color:var(--text3);margin-top:.35rem;">
-      ℹ Absorption and stickiness criteria require Prodcom production data, not yet available for 2024.
+      ℹ ${footnote} Shaded band = period currently selected (${periodLabel(period)}).
     </div>`;
   setTimeout(()=>{
-    const W=card.offsetWidth-22,H=300,m={t:12,r:20,b:30,l:42};
+    const W=card.offsetWidth-22,H=300,m={t:12,r:28,b:30,l:42};
     const svg=d3.select(card).select('#ac');
     svg.attr('viewBox',`0 0 ${W} ${H}`);
 
-    // EC : toutes les années
-    // Abs + Stick : seulement jusqu'à 2023 (Prodcom non dispo 2024)
-    const dataEC   = annualData;
-    const dataAbs  = annualData.filter(d=>d.year<=2023);
-    const dataStick= annualData.filter(d=>d.year<=2023);
-
     const series=[
       {key:'n_ec',   label:'EC criteria (2015–2024)',         data:dataEC,    color:'#1a1a18',dash:'none'},
-      {key:'n_abs',  label:'EC + Absorption (2015–2023)',      data:dataAbs,   color:'#1a56db',dash:'none'},
-      {key:'n_stick',label:'EC + Abs + Stickiness (2015–2023)',data:dataStick, color:'#d63b2f',dash:'4,3'},
+      {key:'n_abs',  label:`EC + Absorption (${labelYears})`,      data:dataAbs,   color:'#1a56db',dash:'none'},
+      {key:'n_stick',label:`EC + Abs + Stickiness (${labelYears})`,data:dataStick, color:'#d63b2f',dash:'4,3'},
     ].filter(s=>s.data.some(d=>(d[s.key]||0)>0));
 
     const x=d3.scaleLinear().domain([2015,2024]).range([m.l,W-m.r]);
     const yMax=d3.max(dataEC,d=>d.n_ec||0)*1.12||10;
     const y=d3.scaleLinear().domain([0,yMax]).range([H-m.b,m.t]);
 
-    // grid lines
+    // Highlight selected period band
+    const bandYears = period==='pre' ? [2015,2019] : [2021,2024];
+    svg.append('rect')
+      .attr('x',x(bandYears[0])).attr('width',x(bandYears[1])-x(bandYears[0]))
+      .attr('y',m.t).attr('height',H-m.b-m.t)
+      .attr('fill','var(--accent)').attr('opacity',.06);
+
     y.ticks(5).forEach(t=>{
       svg.append('line').attr('x1',m.l).attr('x2',W-m.r)
         .attr('y1',y(t)).attr('y2',y(t))
@@ -509,7 +654,6 @@ function kernelEpanechnikov(k) {
 
 function buildUpstreamChart(prods){
   const card=document.createElement('div');card.className='chart-card';
-  // 3 series: EC, absorption, stickiness (si import), sinon juste tous
   const isImport = dir === 'import';
   card.innerHTML=`<div class="chart-title">Upstreamness density — by product list</div><svg id="uc" width="100%" height="160"></svg>
     <div style="display:flex;gap:.75rem;margin-top:.4rem;flex-wrap:wrap;" id="uc-legend"></div>`;
@@ -532,7 +676,7 @@ function buildUpstreamChart(prods){
       const vals=prods.map(p=>p.upstreamness).filter(v=>v!=null&&!isNaN(v));
       series=[{label:'Reverse dep.',vals,color:'#1a8a4a',dash:'none'}];
     }
-    if(!series.length){svgEl.remove();return;}
+    if(!series.length){svgEl.remove();card.querySelector('.chart-title').insertAdjacentHTML('afterend','<div class="side-empty">Not enough data points to estimate a density for this selection.</div>');return;}
 
     const allVals=series.flatMap(s=>s.vals);
     const xDom=[Math.max(0.8,d3.min(allVals)-0.2),Math.min(7,d3.max(allVals)+0.2)];
@@ -571,7 +715,7 @@ function buildValueChart(){
   const card=document.createElement('div');card.className='chart-card';
   const gdp=info.gdp_eur_bn;
   const vi_pct=gdp&&total?(total/1e6/gdp*100).toFixed(2):'—';
-  card.innerHTML=`<div class="chart-title">Import values summary</div>
+  card.innerHTML=`<div class="chart-title">Import values summary — ${periodLabel(period)}</div>
     <div style="display:flex;flex-direction:column;gap:8px;margin-top:.5rem;font-size:.8rem;">
       <div style="display:flex;justify-content:space-between"><span style="color:var(--text2)">Total critical imports</span><span style="font-family:var(--mono);color:var(--text)">${Math.round(total/1000).toLocaleString('en')} M€</span></div>
       <div style="display:flex;justify-content:space-between"><span style="color:var(--text2)">Share of GDP</span><span style="font-family:var(--mono);color:var(--red)">${vi_pct}%</span></div>
@@ -590,7 +734,7 @@ function renderProducts(){
     rows=prods.filter(p=>list==='ec'?true:list==='abs'?p.absorption===1:p.mr===1);
   } else { rows=prods; }
   allRows=rows;
-  document.getElementById('prod-title').textContent=dir==='import'?'Critical import products':'Reverse dependency products';
+  document.getElementById('prod-title').textContent=(dir==='import'?'Critical import products':'Reverse dependency products')+' — '+periodLabel(period);
   document.getElementById('filter-input').value='';
   sortCol=null;sortDir=1;
   filteredRows=[...rows];
@@ -617,7 +761,11 @@ function buildTable(){
   const el=document.getElementById('prod-table');
   const total=filteredRows.length;
   document.getElementById('prod-count').textContent=`${total} products`;
-  const top=filteredRows.slice(0,80);
+  if(!total){
+    el.innerHTML=`<div class="table-note">No products match this selection for ${periodLabel(period)}.</div>`;
+    return;
+  }
+  const top=filteredRows.slice(0,TABLE_LIMIT);
   const sc=(col,num)=>`onclick="sortByCol('${col}',${num})"`;
   const sc_class=col=>sortCol===col?(sortDir===1?'sort-asc':'sort-desc'):'';
 
@@ -661,10 +809,11 @@ function buildTable(){
       <td class="num">${p.upstreamness!=null?p.upstreamness.toFixed(2):'—'}</td>
     </tr>`).join('')}</tbody></table>`;
   }
-  if(total>80){
-    document.getElementById('prod-table').innerHTML+=`<div style="text-align:center;padding:.75rem;font-family:var(--mono);font-size:.65rem;color:var(--text3)">Showing 80 of ${total} — use filter to narrow</div>`;
+  if(total>TABLE_LIMIT){
+    el.innerHTML+=`<div class="table-note">Showing ${TABLE_LIMIT} of ${total} — use the search box to narrow the list</div>`;
   }
 }
+window.addEventListener('resize',()=>{if(feats)renderMap();});
 </script>
 </body>
 </html>
